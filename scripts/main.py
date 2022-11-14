@@ -7,35 +7,52 @@ def start():
     while True:
         print('1. Admin')
         print('2. Student')
-
+        print('3. Exit')
         choice = input('Enter your option -> ')
 
         if len(choice) == 0 or wrong_option == 0:
             return
 
         if choice == '1':
-            # authticate()
+            # authenticate()
             admin()
         elif choice == '2':
-            # authticate()
-            stud()
+            stud_id = input('Enter your ID -> ')
+            stud_pass = input('Enter your Password -> ')
+
+            if len(stud_id) == 0 or len(stud_pass) == 0:
+                print('Error : Invalid Entry!')
+                continue
+
+            stud = Student(student_id=stud_id, student_password=stud_pass)
+            allow = stud.stud_auth(user_type='S')
+            if allow:
+                print("Hello!")
+                print("Student ID    :", allow['student_id'])
+                print("Student Name  : ", allow['student_name'])
+                print("Student Batch : ", allow['student_batch'])
+
+                stud_options()
+            else:
+                print('Error : Authentication Failed!')
+        elif choice == '3':
+            break
         else:
             print('Enter the mentioned choices.')
             print('Remaining options : ', wrong_option)
             wrong_option -= 1
 
 
-
 def admin():
     pass
 
 
-def stud():
+def stud_options():
     wrong_option = 5
 
     while True:
-        print('-'*50)
-        print('|\t1. View Book','\t\t\t7. Delete Complain')
+        print('-' * 50)
+        print('|\t1. View Book', '\t\t\t7. Delete Complain')
         print('|\t2. Borrow Book', '\t\t\t8. View Seat')
         print('|\t3. Return Book', '\t\t\t9. Book Seat')
         print('|\t4. Create Complain', '\t\t10. Update Seat')
