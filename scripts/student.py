@@ -26,7 +26,6 @@ class Student:
         new_id = 'ST' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
         return new_id
 
-
     def fetch_last_id(self):
         db = Database()
         returned_id = db.fetch_last_id()
@@ -36,6 +35,11 @@ class Student:
         db = Database()
         db.save_student(self)
 
+        print('Student Saved successfully')
+        print('ID    : ', self.student_id)
+        print('Name  : ', self.student_name)
+        print('Batch : ', self.student_batch)
+
     def view_books(self):
         db = Database()
         db.view_books()
@@ -44,3 +48,23 @@ class Student:
         db = Database()
         allow = db.authenticate(self)
         return allow
+
+    def borrow_book(self):
+        db = Database()
+        selected_book_id = db.view_and_select_books()
+        status = db.borrow_book(selected_book_id)
+
+        if status:
+            print('Borrow successful')
+            print(status)
+        else:
+            print('Book is not available')
+
+    def return_book(self):
+        db = Database()
+        status = db.return_book('9')
+        if status:
+            print('Return successful')
+            print(status)
+        else:
+            print('Book return unsuccessful (Check Book ID)')

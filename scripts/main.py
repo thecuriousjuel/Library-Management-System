@@ -95,6 +95,7 @@ def stud_options(stud_obj):
         print('|    1. View Books      |')
         print('|    2. Borrow Books    |')
         print('|    3. Return Books    |')
+        print('|    4. Compute Fines   |')
         print('-------------------------')
 
         print('Press enter to exit')
@@ -107,9 +108,9 @@ def stud_options(stud_obj):
             case '1':
                 stud_obj.view_books()
             case '2':
-                pass
+                stud_obj.borrow_book()
             case '3':
-                pass
+                stud_obj.return_book()
             case _:
                 print('Enter the mentioned choices.')
                 print('Remaining attempts : ', wrong_option)

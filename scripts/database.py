@@ -1,5 +1,5 @@
 import csv
-
+import os
 
 class Database:
     def __init__(self):
@@ -14,12 +14,29 @@ class Database:
 
                 if count % 6 == 0:
                     print('-' * 50)
-                    print('1. Press enter to view more...')
-                    print('2. Press other key to exit')
+                    print('Press enter to view more...')
+                    print('Press other key to exit')
                     print('-' * 50)
                     inp = input('->')
                     if len(inp) != 0:
                         break
+                count += 1
+
+    def view_and_select_books(self):
+        with open('../data/books.csv', mode='r') as file:
+            csv_file = csv.reader(file)
+            count = 1
+            for lines in csv_file:
+                self.print_it(lines)
+
+                if count % 6 == 0:
+                    print('-' * 50)
+                    print('Provide accurate book id.')
+                    print('Press enter to view more...')
+                    print('-' * 50)
+                    inp = input('->')
+                    if len(inp) != 0:
+                        return inp
                 count += 1
 
     def print_it(self, data):
@@ -46,7 +63,6 @@ class Database:
         return status
 
     def fetch_last_id(self):
-        print('Method : fetch_id')
         last = []
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
@@ -63,7 +79,46 @@ class Database:
         with open('../data/students.csv', newline='', mode='a', encoding='utf-8') as file:
             writer_object = csv.writer(file)
             writer_object.writerow(data)
-            print('Student Saved successfully')
-            print('ID    : ', stud_obj.student_id)
-            print('Name  : ', stud_obj.student_name)
-            print('Batch : ', stud_obj.student_batch)
+
+    def borrow_book(self, book_id):
+        with open('../data/books.csv', mode='r', encoding='utf-8') as file:
+            books = csv.reader(file)
+            success = False
+
+            with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
+                for book in books:
+                    if book[0] == book_id:
+                        if int(book[6]) >= 1:
+                            book[6] = int(book[6]) - 1
+                            if book[6] == 0:
+                                book[5] = False
+                            success = book
+
+                    temp_books = csv.writer(temp_file)
+                    temp_books.writerow(book)
+
+        os.remove('../data/books.csv')
+        os.rename('../data/temp.csv', '../data/books.csv')
+
+        return success
+
+    def return_book(self, book_id):
+        with open('../data/books.csv', mode='r', encoding='utf-8') as file:
+            books = csv.reader(file)
+            success = False
+            book_id = '13'
+
+            with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
+                for book in books:
+                    if book[0] == book_id:
+                        book[6] = int(book[6]) + 1
+                        success = book
+
+                    temp_books = csv.writer(temp_file)
+                    temp_books.writerow(book)
+
+        os.remove('../data/books.csv')
+        os.rename('../data/temp.csv', '../data/books.csv')
+
+        return success
+
