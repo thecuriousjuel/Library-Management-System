@@ -1,5 +1,4 @@
 import csv
-import os
 
 
 class Database:
@@ -33,17 +32,38 @@ class Database:
         print('Availability  : ', data[5])
         print('No. of Copies : ', data[6])
 
-    def authenticate(self, stud_obj, user_type):
+    def authenticate(self, stud_obj):
         status = False
-        if user_type == 'S':
-            with open('../data/students.csv', mode='r') as file:
-                csv_file = csv.reader(file)
-                for lines in csv_file:
-                    if lines[0] == stud_obj.student_id and lines[2] == stud_obj.student_password:
-                        status = dict(student_id=lines[0],
-                                      student_name=lines[1],
-                                      student_batch=lines[3])
-
-                        break
+        with open('../data/students.csv', mode='r', encoding='utf-8') as file:
+            csv_file = csv.reader(file)
+            for lines in csv_file:
+                if lines[0] == stud_obj.student_id and lines[2] == stud_obj.student_password:
+                    status = True
+                    stud_obj.student_name = lines[1]
+                    stud_obj.student_batch = lines[3]
+                    break
 
         return status
+
+    def fetch_last_id(self):
+        print('Method : fetch_id')
+        last = []
+        with open('../data/students.csv', mode='r', encoding='utf-8') as file:
+            csv_file = csv.reader(file)
+            for lines in csv_file:
+                if len(lines) > 0:
+                    last = lines
+            try:
+                return lines[0]
+            except IndexError:
+                return last[0]
+
+    def save_student(self, stud_obj):
+        data = [stud_obj.student_id, stud_obj.student_name, stud_obj.student_password, stud_obj.student_batch]
+        with open('../data/students.csv', newline='', mode='a', encoding='utf-8') as file:
+            writer_object = csv.writer(file)
+            writer_object.writerow(data)
+            print('Student Saved successfully')
+            print('ID    : ', stud_obj.student_id)
+            print('Name  : ', stud_obj.student_name)
+            print('Batch : ', stud_obj.student_batch)

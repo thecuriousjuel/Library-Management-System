@@ -3,62 +3,99 @@ from student import Student
 
 def start():
     wrong_option = 5
+    failed_auth = 5
 
     while True:
-        print('1. Admin')
-        print('2. Student')
-        print('3. Exit')
-        choice = input('Enter your option -> ')
+        print('-------------------------')
+        print('|         Home          |')
+        print('-------------------------')
+        print('|    1. Login           |')
+        print('|    2. Register        |')
+        print('-------------------------')
+        print('Press enter to exit')
+        choice = input('Enter your option -> ').strip()
 
         if len(choice) == 0 or wrong_option == 0:
-            return
-
-        if choice == '1':
-            # authenticate()
-            admin()
-        elif choice == '2':
-            stud_id = input('Enter your ID -> ')
-            stud_pass = input('Enter your Password -> ')
-
-            if len(stud_id) == 0 or len(stud_pass) == 0:
-                print('Error : Invalid Entry!')
-                continue
-
-            stud = Student(student_id=stud_id, student_password=stud_pass)
-            allow = stud.stud_auth(user_type='S')
-            if allow:
-                print("Hello!")
-                print("Student ID    :", allow['student_id'])
-                print("Student Name  : ", allow['student_name'])
-                print("Student Batch : ", allow['student_batch'])
-
-                stud_options()
-            else:
-                print('Error : Authentication Failed!')
-        elif choice == '3':
             break
-        else:
-            print('Enter the mentioned choices.')
-            print('Remaining options : ', wrong_option)
-            wrong_option -= 1
 
+        match choice:
+            case '1':
+                if failed_auth < 0:
+                    break
 
-def admin():
-    pass
+                stud_id = input('Enter your ID -> ').strip()
+                stud_pass = input('Enter your Password -> ').strip()
 
+                if len(stud_id) == 0 or len(stud_pass) == 0:
+                    print('------------------------')
+                    print('Error : Invalid Entry!')
+                    print('Remaining attempts : ', failed_auth)
+                    print('------------------------')
+                    failed_auth -= 1
+                    continue
 
-def stud_options():
+                stud_obj = Student(student_id=stud_id, student_password=stud_pass)
+                allow = stud_obj.stud_auth()
+                if allow:
+                    print('------------------------------------')
+                    print("Hello!")
+                    print("Student ID    :", stud_obj.student_id)
+                    print("Student Name  : ", stud_obj.student_name)
+                    print("Student Batch : ", stud_obj.student_batch)
+                    print('------------------------------------')
+
+                    stud_options(stud_obj)
+                else:
+                    print('Error : Authentication Failed!')
+                    print('Remaining attempts : ', failed_auth)
+                    failed_auth -= 1
+
+            case '2':
+                status = False
+                while True:
+                    stud_name = input('Enter your Name -> ').strip()
+                    stud_pass_1 = input('Enter your Password -> ').strip()
+                    stud_pass_2 = input('Re-enter your Password -> ').strip()
+                    stud_batch = input('Enter Batch ->')
+
+                    if len(stud_name) < 1 or len(stud_pass_1) < 1 or len(stud_pass_2) < 1 or len(stud_batch) < 1:
+                        print('Please enter a valid student details.')
+                        ch = input('Press Enter to continue....')
+                        if len(ch) <= 0:
+                            break
+
+                    elif stud_pass_1 != stud_pass_2:
+                        print('Password not matching')
+                        ch = input('Press Enter to continue....')
+                        if len(ch) <= 0:
+                            break
+                    else:
+                        status = True
+                        break
+
+                if status:
+                    stud = Student(student_name=stud_name,
+                            student_password=stud_pass_1,
+                            student_batch=stud_batch)
+
+                    stud.save_student()
+
+            case _:
+                print('Enter the mentioned choices.')
+                print('Remaining attempts : ', wrong_option)
+                wrong_option -= 1
+
+def stud_options(stud_obj):
     wrong_option = 5
 
     while True:
-        print('-' * 50)
-        print('|\t1. View Book', '\t\t\t7. Delete Complain')
-        print('|\t2. Borrow Book', '\t\t\t8. View Seat')
-        print('|\t3. Return Book', '\t\t\t9. Book Seat')
-        print('|\t4. Create Complain', '\t\t10. Update Seat')
-        print('|\t5. View Complain', '\t\t11. Release Seat')
-        print('|\t6. Update Complain')
-        print('-' * 50)
+        print('-------------------------')
+        print('|     Student Menu      |')
+        print('-------------------------')
+        print('|    1. View Books      |')
+        print('|    2. Borrow Books    |')
+        print('|    3. Return Books    |')
+        print('-------------------------')
 
         print('Press enter to exit')
         choice = input('Enter your option -> ')
@@ -66,33 +103,17 @@ def stud_options():
         if len(choice) == 0 or wrong_option == 0:
             break
 
-        if choice == '1':
-            stud_obj = Student()
-            stud_obj.view_books()
-        elif choice == '2':
-            pass
-        elif choice == '3':
-            pass
-        elif choice == '4':
-            pass
-        elif choice == '5':
-            pass
-        elif choice == '6':
-            pass
-        elif choice == '7':
-            pass
-        elif choice == '8':
-            pass
-        elif choice == '9':
-            pass
-        elif choice == '10':
-            pass
-        elif choice == '11':
-            pass
-        else:
-            print('Enter the mentioned choices.')
-            print('Remaining options : ', wrong_option)
-            wrong_option -= 1
+        match choice:
+            case '1':
+                stud_obj.view_books()
+            case '2':
+                pass
+            case '3':
+                pass
+            case _:
+                print('Enter the mentioned choices.')
+                print('Remaining attempts : ', wrong_option)
+                wrong_option -= 1
 
 
 if __name__ == '__main__':
