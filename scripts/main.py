@@ -1,5 +1,4 @@
-from student import Student
-
+from main_helper import *
 
 def start():
     wrong_option = 5
@@ -34,9 +33,9 @@ def start():
                     failed_auth -= 1
                     continue
 
-                stud_obj = Student(student_id=stud_id, student_password=stud_pass)
-                allow = stud_obj.stud_auth()
-                if allow:
+                stud_obj = stud_auth(stud_id, stud_pass)
+
+                if stud_obj:
                     print('------------------------------------')
                     print("Hello!")
                     print("Student ID    :", stud_obj.student_id)
@@ -75,15 +74,16 @@ def start():
 
                 if status:
                     stud = Student(student_name=stud_name,
-                            student_password=stud_pass_1,
-                            student_batch=stud_batch)
+                                   student_password=stud_pass_1,
+                                   student_batch=stud_batch)
 
-                    stud.save_student()
+                    save_student(stud)
 
             case _:
                 print('Enter the mentioned choices.')
                 print('Remaining attempts : ', wrong_option)
                 wrong_option -= 1
+
 
 def stud_options(stud_obj):
     wrong_option = 5
@@ -115,6 +115,23 @@ def stud_options(stud_obj):
                 print('Enter the mentioned choices.')
                 print('Remaining attempts : ', wrong_option)
                 wrong_option -= 1
+
+
+def create_id(self):
+    num_of_zeros = 4
+    returned_id = self.fetch_last_student_id()
+
+    new_id = int(returned_id[2:]) + 1
+
+    temp = new_id
+    num_of_digits = 0
+
+    while temp > 0:
+        num_of_digits += 1
+        temp //= 10
+
+    new_id = 'ST' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
+    return new_id
 
 
 if __name__ == '__main__':

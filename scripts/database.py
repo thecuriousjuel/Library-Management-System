@@ -1,5 +1,8 @@
 import csv
 import os
+from book import *
+from student import Student
+import datetime
 
 class Database:
     def __init__(self):
@@ -34,10 +37,11 @@ class Database:
                     print('Provide accurate book id.')
                     print('Press enter to view more...')
                     print('-' * 50)
-                    inp = input('->')
+                    inp = input('-> ')
                     if len(inp) != 0:
                         return inp
                 count += 1
+
 
     def print_it(self, data):
         print('-' * 50)
@@ -49,20 +53,18 @@ class Database:
         print('Availability  : ', data[5])
         print('No. of Copies : ', data[6])
 
-    def authenticate(self, stud_obj):
+    def authenticate(self, stud_id, stud_password):
         status = False
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
             for lines in csv_file:
-                if lines[0] == stud_obj.student_id and lines[2] == stud_obj.student_password:
-                    status = True
-                    stud_obj.student_name = lines[1]
-                    stud_obj.student_batch = lines[3]
+                if lines[0] == stud_id and lines[2] == stud_password:
+                    status = Student(lines[0], lines[1], lines[2], lines[3])
                     break
 
         return status
 
-    def fetch_last_id(self):
+    def fetch_last_student_id(self):
         last = []
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
@@ -80,7 +82,7 @@ class Database:
             writer_object = csv.writer(file)
             writer_object.writerow(data)
 
-    def borrow_book(self, book_id):
+    def borrow_book(self, stud_obj, book_id):
         with open('../data/books.csv', mode='r', encoding='utf-8') as file:
             books = csv.reader(file)
             success = False
@@ -100,13 +102,18 @@ class Database:
         os.remove('../data/books.csv')
         os.rename('../data/temp.csv', '../data/books.csv')
 
+        if success:
+            book_obj = Book(success[0], success[1], success[2], success[3], success[4], success[5], success[6])
+            self.write_to_transaction_file(stud_obj, book_obj)
+
         return success
+
 
     def return_book(self, book_id):
         with open('../data/books.csv', mode='r', encoding='utf-8') as file:
             books = csv.reader(file)
             success = False
-            book_id = '13'
+            book_id = book_id
 
             with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
                 for book in books:
@@ -120,5 +127,41 @@ class Database:
         os.remove('../data/books.csv')
         os.rename('../data/temp.csv', '../data/books.csv')
 
+        if success:
+            pass
         return success
+
+    def fetch_last_transaction_id(self):
+        check_file_presence = os.path.isfile('../data/transaction.csv')
+        print('Check File', check_file_presence)
+        if not check_file_presence:
+            return 'TR0001'
+
+        last = []
+        with open('../data/transaction.csv', mode='r', encoding='utf-8') as file:
+            csv_file = csv.reader(file)
+            for lines in csv_file:
+                if len(lines) > 0:
+                    last = lines
+            try:
+                return lines[0]
+            except IndexError:
+                return last[0]
+
+    def get_current_date(self):
+        x = datetime.datetime.now()
+        return x.strftime("%d-%m-%Y")
+    def write_to_transaction_file(self, stud_obj, book_obj):
+
+        last_id = self.fetch_last_transaction_id()
+
+        todays_date = self.get_current_date()
+
+        with open('../data/transaction.csv', mode='a', newline='', encoding='utf-8') as file:
+            data_to_write = [last_id, stud_obj.student_id, book_obj.book_id, todays_date]
+
+            temp_books = csv.writer(file)
+            temp_books.writerow(data_to_write)
+
+
 
