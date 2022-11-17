@@ -1,10 +1,8 @@
-from database import *
+from database import Database
 
 
 class Student:
     def __init__(self, student_id, student_name, student_password, student_batch):
-        if student_id == None:
-            student_id = self.create_id()
         self.student_id = student_id
         self.student_name = student_name
         self.student_password = student_password
@@ -42,7 +40,8 @@ class Student:
 
 
     def __str__(self):
-        return ('Student Saved successfully')
-        print('ID    : ', student.student_id)
-        print('Name  : ', student.student_name)
-        print('Batch : ', student.student_batch)
+        return (f"""
+            ID    : {self.student_id}
+            Name  : {self.student_name}
+            Batch : {self.student_batch}
+                   """)

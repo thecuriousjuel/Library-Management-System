@@ -1,8 +1,9 @@
 import csv
 import os
 from book import *
-from student import Student
+
 import datetime
+
 
 class Database:
     def __init__(self):
@@ -42,7 +43,6 @@ class Database:
                         return inp
                 count += 1
 
-
     def print_it(self, data):
         print('-' * 50)
         print('ID            : ', data[0])
@@ -54,6 +54,7 @@ class Database:
         print('No. of Copies : ', data[6])
 
     def authenticate(self, stud_id, stud_password):
+        from student import Student
         status = False
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
@@ -82,6 +83,7 @@ class Database:
             writer_object = csv.writer(file)
             writer_object.writerow(data)
 
+
     def borrow_book(self, stud_obj, book_id):
         with open('../data/books.csv', mode='r', encoding='utf-8') as file:
             books = csv.reader(file)
@@ -107,7 +109,6 @@ class Database:
             self.write_to_transaction_file(stud_obj, book_obj)
 
         return success
-
 
     def return_book(self, book_id):
         with open('../data/books.csv', mode='r', encoding='utf-8') as file:
@@ -151,17 +152,30 @@ class Database:
     def get_current_date(self):
         x = datetime.datetime.now()
         return x.strftime("%d-%m-%Y")
+
     def write_to_transaction_file(self, stud_obj, book_obj):
-
-        last_id = self.fetch_last_transaction_id()
-
-        todays_date = self.get_current_date()
+        transaction_id = self.create_transaction_id()
+        today_date = self.get_current_date()
 
         with open('../data/transaction.csv', mode='a', newline='', encoding='utf-8') as file:
-            data_to_write = [last_id, stud_obj.student_id, book_obj.book_id, todays_date]
+            data_to_write = [transaction_id, stud_obj.student_id, book_obj.book_id, today_date]
 
             temp_books = csv.writer(file)
             temp_books.writerow(data_to_write)
 
+    def create_transaction_id(self):
 
+        num_of_zeros = 4
+        returned_id = self.fetch_last_transaction_id()
 
+        new_id = int(returned_id[2:]) + 1
+
+        temp = new_id
+        num_of_digits = 0
+
+        while temp > 0:
+            num_of_digits += 1
+            temp //= 10
+
+        new_id = 'tr' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
+        return new_id

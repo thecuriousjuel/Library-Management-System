@@ -1,5 +1,5 @@
 from main_helper import *
-
+from student import *
 def start():
     wrong_option = 5
     failed_auth = 5
@@ -8,8 +8,8 @@ def start():
         print('-------------------------')
         print('|         Home          |')
         print('-------------------------')
-        print('|    1. Login           |')
-        print('|    2. Register        |')
+        print('|      1. Login         |')
+        print('|      2. Register      |')
         print('-------------------------')
         print('Press enter to exit')
         choice = input('Enter your option -> ').strip()
@@ -55,7 +55,7 @@ def start():
                     stud_name = input('Enter your Name -> ').strip()
                     stud_pass_1 = input('Enter your Password -> ').strip()
                     stud_pass_2 = input('Re-enter your Password -> ').strip()
-                    stud_batch = input('Enter Batch ->')
+                    stud_batch = input('Enter Batch -> ')
 
                     if len(stud_name) < 1 or len(stud_pass_1) < 1 or len(stud_pass_2) < 1 or len(stud_batch) < 1:
                         print('Please enter a valid student details.')
@@ -73,7 +73,9 @@ def start():
                         break
 
                 if status:
-                    stud = Student(student_name=stud_name,
+
+                    stud = Student(student_id=create_id(),
+                                   student_name=stud_name,
                                    student_password=stud_pass_1,
                                    student_batch=stud_batch)
 
@@ -115,23 +117,6 @@ def stud_options(stud_obj):
                 print('Enter the mentioned choices.')
                 print('Remaining attempts : ', wrong_option)
                 wrong_option -= 1
-
-
-def create_id(self):
-    num_of_zeros = 4
-    returned_id = self.fetch_last_student_id()
-
-    new_id = int(returned_id[2:]) + 1
-
-    temp = new_id
-    num_of_digits = 0
-
-    while temp > 0:
-        num_of_digits += 1
-        temp //= 10
-
-    new_id = 'ST' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
-    return new_id
 
 
 if __name__ == '__main__':
