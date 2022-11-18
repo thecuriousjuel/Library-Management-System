@@ -24,13 +24,19 @@ class Student:
         status = db.borrow_book(self, selected_book_id)
 
         if status:
+            trans_id, book_obj = status
             print('Borrow successful')
-            print(status)
+            print(book_obj)
+            print('-----------------------')
+            print('Borrowed by')
+            print('-----------------------')
+            print(self)
         else:
             print('Book is not available')
 
     def return_book(self):
         db = Database()
+        db.get_all_borrowed_books(self)
         status = db.return_book('9')
         if status:
             print('Return successful')
@@ -38,10 +44,9 @@ class Student:
         else:
             print('Book return unsuccessful (Check Book ID)')
 
-
     def __str__(self):
         return (f"""
-            ID    : {self.student_id}
-            Name  : {self.student_name}
-            Batch : {self.student_batch}
+            Student ID     : {self.student_id}
+            Student Name   : {self.student_name}
+            Student Batch  : {self.student_batch}
                    """)

@@ -43,6 +43,14 @@ class Database:
                         return inp
                 count += 1
 
+        print('-' * 50)
+        print('Provide accurate book id.')
+        print('Press enter to view more...')
+        print('-' * 50)
+        inp = input('-> ')
+        return inp
+
+
     def print_it(self, data):
         print('-' * 50)
         print('ID            : ', data[0])
@@ -106,11 +114,12 @@ class Database:
 
         if success:
             book_obj = Book(success[0], success[1], success[2], success[3], success[4], success[5], success[6])
-            self.write_to_transaction_file(stud_obj, book_obj)
+            trans_id = self.write_to_transaction_file(stud_obj, book_obj, 'b')
+            return trans_id, book_obj
 
         return success
 
-    def return_book(self, book_id):
+    def return_book(self, stud_obj, book_id, trans_type):
         with open('../data/books.csv', mode='r', encoding='utf-8') as file:
             books = csv.reader(file)
             success = False
@@ -120,6 +129,7 @@ class Database:
                 for book in books:
                     if book[0] == book_id:
                         book[6] = int(book[6]) + 1
+                        book[5] = True
                         success = book
 
                     temp_books = csv.writer(temp_file)
@@ -129,14 +139,15 @@ class Database:
         os.rename('../data/temp.csv', '../data/books.csv')
 
         if success:
-            pass
+            book_obj = Book(success[0], success[1], success[2], success[3], success[4], success[5], success[6])
+            trans_id = self.write_to_transaction_file(stud_obj, book_obj, 'r')
+            return trans_id, book_obj
         return success
 
     def fetch_last_transaction_id(self):
         check_file_presence = os.path.isfile('../data/transaction.csv')
-        print('Check File', check_file_presence)
         if not check_file_presence:
-            return 'TR0001'
+            return 'tr0001'
 
         last = []
         with open('../data/transaction.csv', mode='r', encoding='utf-8') as file:
@@ -153,15 +164,17 @@ class Database:
         x = datetime.datetime.now()
         return x.strftime("%d-%m-%Y")
 
-    def write_to_transaction_file(self, stud_obj, book_obj):
+    def write_to_transaction_file(self, stud_obj, book_obj, trans_type):
         transaction_id = self.create_transaction_id()
         today_date = self.get_current_date()
 
         with open('../data/transaction.csv', mode='a', newline='', encoding='utf-8') as file:
-            data_to_write = [transaction_id, stud_obj.student_id, book_obj.book_id, today_date]
+            data_to_write = [transaction_id, stud_obj.student_id, book_obj.book_id, today_date, trans_type]
 
             temp_books = csv.writer(file)
             temp_books.writerow(data_to_write)
+
+        return transaction_id
 
     def create_transaction_id(self):
 
@@ -179,3 +192,6 @@ class Database:
 
         new_id = 'tr' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
         return new_id
+
+    def get_all_borrowed_books(self, stud_obj):
+        pass
