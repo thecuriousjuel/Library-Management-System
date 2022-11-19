@@ -113,6 +113,8 @@ def stud_options(stud_obj):
                 stud_obj.borrow_book()
             case '3':
                 stud_obj.return_book()
+            case '4':
+                stud_obj.check_fines()
             case _:
                 print('Enter the mentioned choices.')
                 print('Remaining attempts : ', wrong_option)

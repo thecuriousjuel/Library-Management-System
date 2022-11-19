@@ -1,5 +1,5 @@
 from database import Database
-
+from datetime import datetime
 
 class Student:
     def __init__(self, student_id, student_name, student_password, student_batch):
@@ -39,6 +39,7 @@ class Student:
         else:
             print('Book is not available')
 
+
     def return_book(self):
         db = Database()
         book_list = db.get_all_borrowed_books(self)
@@ -69,12 +70,25 @@ class Student:
                 print('Enter Valid Book ID')
 
         status = db.return_book(self, ch)
+
         if status:
+            borrow_date = datetime.strptime(book.borrow_date, '%d-%m-%Y')
+            current_date = datetime.now()
+
+            print('Borrow Date : ', book.borrow_date)
+            print('Return Date : ', current_date.strftime('%d-%m-%Y'))
+
+            d = current_date - borrow_date
+            print('Book Holding (in Days) : ', d.days)
+
+            fine = (d.days//7) * 20
+            print('Fine : Rs. ', fine)
+
             print('Return successful')
-            print(status[0])
-            print(status[1])
         else:
             print('Book return unsuccessful (Check Book ID)')
+
+
 
     def __str__(self):
         return (f"""
