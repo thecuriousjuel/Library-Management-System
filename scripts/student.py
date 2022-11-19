@@ -24,23 +24,55 @@ class Student:
         status = db.borrow_book(self, selected_book_id)
 
         if status:
-            trans_id, book_obj = status
-            print('Borrow successful')
-            print(book_obj)
+            trans_id, today_date, book_obj = status
             print('-----------------------')
-            print('Borrowed by')
+            print('Date : ', today_date)
             print('-----------------------')
             print(self)
+            print('-----------------------')
+            print('Borrowed Book')
+            print('-----------------------')
+            print(book_obj)
+            print('-----------------------')
+            print('Borrow successful. ')
+            print('-----------------------')
         else:
             print('Book is not available')
 
     def return_book(self):
         db = Database()
-        db.get_all_borrowed_books(self)
-        status = db.return_book('9')
+        book_list = db.get_all_borrowed_books(self)
+        if len(book_list) == 0:
+            print('No Books are borrowed yet!')
+            return
+
+        flag = True
+
+        while flag:
+
+            for book in book_list:
+                print(book)
+
+            print('Enter the Book ID : ')
+            print('Press enter to exit')
+            ch = input('-> ')
+
+            if len(ch) == 0:
+                return
+
+            for book in book_list:
+                if book.book_id == ch:
+                    flag = False
+                    break
+
+            if flag == True:
+                print('Enter Valid Book ID')
+
+        status = db.return_book(self, ch)
         if status:
             print('Return successful')
-            print(status)
+            print(status[0])
+            print(status[1])
         else:
             print('Book return unsuccessful (Check Book ID)')
 
