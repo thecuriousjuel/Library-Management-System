@@ -18,11 +18,11 @@ class Book:
 
     def __str__(self):
         return (f"""
-            Book ID           : {self.book_id}
-            Book Name         : {self.book_name}
-            Book Author       : {self.book_author}
-            Book Publisher    : {self.book_publisher}
-            Book Publish Date : {self.book_publish_date}
+                Book ID           : {self.book_id}
+                Book Name         : {self.book_name}
+                Book Author       : {self.book_author}
+                Book Publisher    : {self.book_publisher}
+                Book Publish Date : {self.book_publish_date}
                    """)
 
 

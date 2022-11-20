@@ -16,12 +16,12 @@ class Database:
             for lines in csv_file:
                 self.print_it(lines)
 
-                if count % 6 == 0:
-                    print('-' * 50)
-                    print('Press enter to view more...')
-                    print('Press other key to exit')
-                    print('-' * 50)
-                    inp = input('->')
+                if count % 4 == 0:
+                    print('\t\t\t\t', '-' * 50)
+                    print('\t\t\t\t\t\tPress enter to view more...')
+                    print('\t\t\t\t\t\tPress other key to exit')
+                    print('\t\t\t\t', '-' * 50)
+                    inp = input('\t\t\t\t\t\t-> ')
                     if len(inp) != 0:
                         break
                 count += 1
@@ -33,32 +33,32 @@ class Database:
             for lines in csv_file:
                 self.print_it(lines)
 
-                if count % 6 == 0:
-                    print('-' * 50)
-                    print('Provide accurate book id.')
-                    print('Press enter to view more...')
-                    print('-' * 50)
-                    inp = input('-> ')
+                if count % 4 == 0:
+                    print('\t\t\t\t', '-' * 50)
+                    print('\t\t\t\t\t\t\tProvide accurate book id.')
+                    print('\t\t\t\t\t\t\tPress enter to view more...')
+                    print('\t\t\t\t', '-' * 50)
+                    inp = input('\t\t\t\t\t\t\t-> ')
                     if len(inp) != 0:
                         return inp
                 count += 1
 
-        print('-' * 50)
-        print('Provide accurate book id.')
-        print('Press enter to view more...')
-        print('-' * 50)
-        inp = input('-> ')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t\t\t\tProvide accurate book id.')
+        print('\t\t\t\t\t\t\tPress enter to view more...')
+        print('\t\t\t\t------------------------------------------')
+        inp = input('\t\t\t\t-> ')
         return inp
 
     def print_it(self, data):
-        print('-' * 50)
-        print('ID            : ', data[0])
-        print('Name          : ', data[1])
-        print('Author        : ', data[2])
-        print('Publisher     : ', data[3])
-        print('Publish Date  : ', data[4])
-        print('Availability  : ', data[5])
-        print('No. of Copies : ', data[6])
+        print('\t', '-'*110)
+        print('\t\t\t\tID            : ', data[0])
+        print('\t\t\t\tName          : ', data[1])
+        print('\t\t\t\tAuthor        : ', data[2])
+        print('\t\t\t\tPublisher     : ', data[3])
+        print('\t\t\t\tPublish Date  : ', data[4])
+        print('\t\t\t\tAvailability  : ', data[5])
+        print('\t\t\t\tNo. of Copies : ', data[6])
 
     def authenticate(self, stud_id, stud_password):
         from student import Student
@@ -242,7 +242,3 @@ class Database:
 
         return book_list
 
-
-    def compute_fine(self):
-        with open('../data/all_borrows.csv', mode='r', encoding='utf-8') as trans_file:
-            pass
