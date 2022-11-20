@@ -11,11 +11,11 @@ def save_student(student):
     db = Database()
     db.save_student(student)
 
-    print('------------------------------------')
-    print('|    Student Saved successfully    |')
-    print('------------------------------------')
+    print('\t\t\t\t------------------------------------')
+    print('\t\t\t\t|    Student Saved successfully    |')
+    print('\t\t\t\t------------------------------------')
     print(student)
-    print('------------------------------------')
+    print('\t\t\t\t------------------------------------')
 
 
 def stud_auth(student_id, student_password):

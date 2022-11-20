@@ -5,14 +5,15 @@ def start():
     failed_auth = 5
 
     while True:
-        print('-------------------------')
-        print('|         Home          |')
-        print('-------------------------')
-        print('|      1. Login         |')
-        print('|      2. Register      |')
-        print('-------------------------')
-        print('Press enter to exit')
-        choice = input('Enter your option -> ').strip()
+        print('\t\t\t\t-------------------------')
+        print('\t\t\t\t|         Home          |')
+        print('\t\t\t\t-------------------------')
+        print('\t\t\t\t|      1. Login         |')
+        print('\t\t\t\t|      2. Register      |')
+        print('\t\t\t\t-------------------------')
+        print('\t\t\t\tPress enter to exit')
+        print('\t\t\t\tEnter your option')
+        choice = input('\t\t\t\t-> ').strip()
 
         if len(choice) == 0 or wrong_option == 0:
             break
@@ -36,12 +37,13 @@ def start():
                 stud_obj = stud_auth(stud_id, stud_pass)
 
                 if stud_obj:
-                    print('------------------------------------')
-                    print("Hello!")
-                    print("Student ID    :", stud_obj.student_id)
-                    print("Student Name  : ", stud_obj.student_name)
-                    print("Student Batch : ", stud_obj.student_batch)
-                    print('------------------------------------')
+                    print('\t\t\t\t------------------------------------')
+                    print('\t\t\t\tHello!')
+                    print('\t\t\t\t------------------------------------')
+                    print("\t\t\t\tStudent ID    :", stud_obj.student_id)
+                    print("\t\t\t\tStudent Name  : ", stud_obj.student_name)
+                    print("\t\t\t\tStudent Batch : ", stud_obj.student_batch)
+                    print('\t\t\t\t------------------------------------')
 
                     stud_options(stud_obj)
                 else:
@@ -64,7 +66,7 @@ def start():
                             break
 
                     elif stud_pass_1 != stud_pass_2:
-                        print('Password not matching')
+                        print('\t\t\t\tPassword not matching')
                         ch = input('Press Enter to continue....')
                         if len(ch) <= 0:
                             break
@@ -82,8 +84,8 @@ def start():
                     save_student(stud)
 
             case _:
-                print('Enter the mentioned choices.')
-                print('Remaining attempts : ', wrong_option)
+                print('\t\t\t\tEnter the mentioned choices.')
+                print('\t\t\t\tRemaining attempts : ', wrong_option)
                 wrong_option -= 1
 
 
@@ -91,17 +93,17 @@ def stud_options(stud_obj):
     wrong_option = 5
 
     while True:
-        print('-------------------------')
-        print('|     Student Menu      |')
-        print('-------------------------')
-        print('|    1. View Books      |')
-        print('|    2. Borrow Books    |')
-        print('|    3. Return Books    |')
-        print('|    4. Compute Fines   |')
-        print('-------------------------')
+        print('\t\t\t\t-------------------------')
+        print('\t\t\t\t|     Student Menu      |')
+        print('\t\t\t\t-------------------------')
+        print('\t\t\t\t|    1. View Books      |')
+        print('\t\t\t\t|    2. Borrow Books    |')
+        print('\t\t\t\t|    3. Return Books    |')
+        print('\t\t\t\t|    4. Compute Fines   |')
+        print('\t\t\t\t-------------------------')
 
-        print('Press enter to exit')
-        choice = input('Enter your option -> ')
+        print('\t\t\t\tPress enter to exit')
+        choice = input('\t\t\t\tEnter your option -> ')
 
         if len(choice) == 0 or wrong_option == 0:
             break
@@ -116,8 +118,8 @@ def stud_options(stud_obj):
             case '4':
                 stud_obj.check_fines()
             case _:
-                print('Enter the mentioned choices.')
-                print('Remaining attempts : ', wrong_option)
+                print('\t\t\t\tEnter the mentioned choices.')
+                print('\t\t\t\tRemaining attempts : ', wrong_option)
                 wrong_option -= 1
 
 
