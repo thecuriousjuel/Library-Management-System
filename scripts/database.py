@@ -143,7 +143,6 @@ class Database:
             with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
                 for book in books:
                     if book[0] == book_id and not success:
-                        print(book[0])
                         book[6] = int(book[6]) + 1
                         book[5] = True
                         success = book
@@ -217,8 +216,8 @@ class Database:
         return new_id
 
     def get_all_borrowed_books(self, stud_obj):
-        with open('../data/all_borrows.csv', mode='r', encoding='utf-8') as trans_file:
-            trans_file_reader = csv.reader(trans_file)
+        with open('../data/all_borrows.csv', mode='r', encoding='utf-8') as borrow_file:
+            trans_file_reader = csv.reader(borrow_file)
             book_list = []
 
             for line in trans_file_reader:
@@ -237,6 +236,13 @@ class Database:
                                                 book_line[5],
                                                 book_line[6])
 
+                                book_obj.borrow_date = line[3]
+
                                 book_list.append(book_obj)
 
         return book_list
+
+
+    def compute_fine(self):
+        with open('../data/all_borrows.csv', mode='r', encoding='utf-8') as trans_file:
+            pass
