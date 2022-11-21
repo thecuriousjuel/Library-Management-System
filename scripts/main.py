@@ -1,20 +1,22 @@
 from main_helper import *
 from student import *
+
+
 def start():
     wrong_option = 5
     failed_auth = 5
 
     while True:
-        print('\t\t\t\t-------------------------')
-        print('\t\t\t\t|         Home          |')
-        print('\t\t\t\t-------------------------')
-        print('\t\t\t\t|      1. Login         |')
-        print('\t\t\t\t|      2. Register      |')
-        print('\t\t\t\t|      3. De-register   |')
-        print('\t\t\t\t-------------------------')
-        print('\t\t\t\tPress enter to exit')
-        print('\t\t\t\tEnter your option')
-        choice = input('\t\t\t\t-> ').strip()
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|                  Home                  |')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|                1. Login                |')
+        print('\t\t\t\t|                2. Register             |')
+        print('\t\t\t\t|                3. De-register          |')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t\t\tPress enter to exit')
+        print('\t\t\t\t\t\tEnter your option')
+        choice = input('\t\t\t\t\t\t-> ').strip()
 
         if len(choice) == 0 or wrong_option == 0:
             break
@@ -23,35 +25,35 @@ def start():
             case '1':
                 if failed_auth < 0:
                     break
-                print('\t\t\t\tEnter your ID ')
-                stud_id = 'st0001'#input('\t\t\t\t-> ').strip()
+                print('\t\t\t\t\t\tEnter your ID ')
+                stud_id = input('\t\t\t\t\t\t-> ').strip()
 
                 print('\t\t\t\tEnter your Password')
-                stud_pass = 'rk'#input('\t\t\t\t-> ').strip()
+                stud_pass = input('\t\t\t\t\t\t-> ').strip()
 
                 if len(stud_id) == 0 or len(stud_pass) == 0:
-                    print('\t\t\t\t------------------------')
-                    print('\t\t\t\tError : Invalid Entry!')
-                    print('\t\t\t\tRemaining attempts : ', failed_auth)
-                    print('\t\t\t\t------------------------')
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|         Error : Invalid Entry!         |')
+                    print(f'\t\t\t\t|      Remaining attempts : {failed_auth}      |')
+                    print('\t\t\t\t------------------------------------------')
                     failed_auth -= 1
                     continue
 
                 stud_obj = stud_auth(stud_id, stud_pass)
 
                 if stud_obj:
-                    print('\t\t\t\t------------------------------------')
-                    print('\t\t\t\t             Hello!                 ')
-                    print('\t\t\t\t------------------------------------')
-                    print("\t\t\t\tStudent ID    :", stud_obj.student_id)
-                    print("\t\t\t\tStudent Name  : ", stud_obj.student_name)
-                    print("\t\t\t\tStudent Batch : ", stud_obj.student_batch)
-                    print('\t\t\t\t------------------------------------')
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|                 Hello!                 |')
+                    print('\t\t\t\t------------------------------------------')
+                    print(stud_obj)
+                    print('\t\t\t\t------------------------------------------')
 
                     stud_options(stud_obj)
                 else:
-                    print('\t\t\t\tError : Authentication Failed!')
-                    print('\t\t\t\tRemaining attempts : ', failed_auth)
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|    Error : Authentication Failed!      |')
+                    print(f'\t\t\t\t|    Remaining attempts : {failed_auth}              |')
+                    print('\t\t\t\t------------------------------------------')
                     failed_auth -= 1
 
             case '2':
@@ -85,7 +87,6 @@ def start():
                         break
 
                 if status:
-
                     stud = Student(student_id=create_id(),
                                    student_name=stud_name,
                                    student_password=stud_pass_1,
@@ -94,8 +95,10 @@ def start():
                     save_student(stud)
 
             case _:
-                print('\t\t\t\tEnter the mentioned choices.')
-                print('\t\t\t\tRemaining attempts : ', wrong_option)
+                print('\t\t\t\t------------------------------------------')
+                print('\t\t\t\t|       Enter the mentioned choices      |')
+                print(f'\t\t\t\t|       Remaining attempts : {wrong_option}           |')
+                print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
 
 
@@ -103,18 +106,18 @@ def stud_options(stud_obj):
     wrong_option = 5
 
     while True:
-        print('\t\t\t\t-------------------------')
-        print('\t\t\t\t|     Student Menu      |')
-        print('\t\t\t\t-------------------------')
-        print('\t\t\t\t|    1. View Books      |')
-        print('\t\t\t\t|    2. Borrow Books    |')
-        print('\t\t\t\t|    3. Return Books    |')
-        print('\t\t\t\t|    4. Compute Fines   |')
-        print('\t\t\t\t-------------------------')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|              Student Menu              |')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|             1. View Books              |')
+        print('\t\t\t\t|             2. Borrow Books            |')
+        print('\t\t\t\t|             3. Return Books            |')
+        print('\t\t\t\t|             4. Compute Fines           |')
+        print('\t\t\t\t------------------------------------------')
 
-        print('\t\t\t\tPress enter to exit')
-        print('\t\t\t\tEnter your option ')
-        choice = input('\t\t\t\t-> ')
+        print('\t\t\t\t\tPress enter to exit')
+        print('\t\t\t\t\tEnter your option ')
+        choice = input('\t\t\t\t\t-> ')
 
         if len(choice) == 0 or wrong_option == 0:
             break
@@ -129,11 +132,12 @@ def stud_options(stud_obj):
             case '4':
                 stud_obj.check_fines()
             case _:
-                print('\t\t\t\tEnter the mentioned choices.')
-                print('\t\t\t\tRemaining attempts : ', wrong_option)
+                print('\t\t\t\t------------------------------------------')
+                print('\t\t\t\t|       Enter the mentioned choices      |')
+                print(f'\t\t\t\t|       Remaining attempts : {wrong_option}           |')
+                print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
 
 
 if __name__ == '__main__':
-        start()
-
+    start()

@@ -17,10 +17,10 @@ class Database:
                 self.print_it(lines)
 
                 if count % 4 == 0:
-                    print('\t\t\t\t', '-' * 50)
-                    print('\t\t\t\t\t\tPress enter to view more...')
-                    print('\t\t\t\t\t\tPress other key to exit')
-                    print('\t\t\t\t', '-' * 50)
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|       Press enter to view more...      |')
+                    print('\t\t\t\t|       Press other key to exit          |')
+                    print('\t\t\t\t------------------------------------------')
                     inp = input('\t\t\t\t\t\t-> ')
                     if len(inp) != 0:
                         break
@@ -34,18 +34,18 @@ class Database:
                 self.print_it(lines)
 
                 if count % 4 == 0:
-                    print('\t\t\t\t', '-' * 50)
-                    print('\t\t\t\t\t\t\tProvide accurate book id.')
-                    print('\t\t\t\t\t\t\tPress enter to view more...')
-                    print('\t\t\t\t', '-' * 50)
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|        Provide accurate Book ID.       |')
+                    print('\t\t\t\t|        Press enter to view more...     |')
+                    print('\t\t\t\t------------------------------------------')
                     inp = input('\t\t\t\t\t\t\t-> ')
                     if len(inp) != 0:
                         return inp
                 count += 1
 
         print('\t\t\t\t------------------------------------------')
-        print('\t\t\t\t\t\t\tProvide accurate book id.')
-        print('\t\t\t\t\t\t\tPress enter to view more...')
+        print('\t\t\t\t|        Provide accurate Book ID.       |')
+        print('\t\t\t\t|        Press enter to view more...     |')
         print('\t\t\t\t------------------------------------------')
         inp = input('\t\t\t\t-> ')
         return inp
