@@ -31,7 +31,9 @@ class Database:
             csv_file = csv.reader(file)
             count = 1
             for lines in csv_file:
+
                 self.print_it(lines)
+
 
                 if count % 4 == 0:
                     print('\t\t\t\t------------------------------------------')
@@ -51,24 +53,36 @@ class Database:
         return inp
 
     def print_it(self, data):
-        print('\t', '-'*110)
-        print('\t\t\t\tID            : ', data[0])
-        print('\t\t\t\tName          : ', data[1])
-        print('\t\t\t\tAuthor        : ', data[2])
-        print('\t\t\t\tPublisher     : ', data[3])
-        print('\t\t\t\tPublish Date  : ', data[4])
-        print('\t\t\t\tAvailability  : ', data[5])
-        print('\t\t\t\tNo. of Copies : ', data[6])
+        try:
+            print('\t', '-'*110)
+            print('\t\t\t\tID            : ', data[0])
+            print('\t\t\t\tName          : ', data[1])
+            print('\t\t\t\tAuthor        : ', data[2])
+            print('\t\t\t\tPublisher     : ', data[3])
+            print('\t\t\t\tPublish Date  : ', data[4])
+            print('\t\t\t\tAvailability  : ', data[5])
+            print('\t\t\t\tNo. of Copies : ', data[6])
+        except IndexError:
+            pass
+        except Exception:
+            pass
+
 
     def authenticate(self, stud_id, stud_password):
         from student import Student
         status = False
+
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
             for lines in csv_file:
-                if lines[0] == stud_id and lines[2] == stud_password:
-                    status = Student(lines[0], lines[1], lines[2], lines[3])
-                    break
+                try:
+                    if lines[0] == stud_id and lines[2] == stud_password:
+                        status = Student(lines[0], lines[1], lines[2], lines[3])
+                        break
+                except IndexError:
+                    pass
+                except Exception:
+                    pass
 
         return status
 
@@ -76,6 +90,7 @@ class Database:
         last = []
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
+            lines = []
             for lines in csv_file:
                 if len(lines) > 0:
                     last = lines
@@ -99,9 +114,9 @@ class Database:
                 for book in books:
                     if book[0] == book_id:
                         if int(book[6]) >= 1:
-                            book[6] = int(book[6]) - 1
+                            book[6] = str(int(book[6]) - 1)
                             if book[6] == 0:
-                                book[5] = False
+                                book[5] = "False"
                             success = book
 
                     temp_books = csv.writer(temp_file)
@@ -143,8 +158,8 @@ class Database:
             with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
                 for book in books:
                     if book[0] == book_id and not success:
-                        book[6] = int(book[6]) + 1
-                        book[5] = True
+                        book[6] = str(int(book[6]) + 1)
+                        book[5] = "True"
                         success = book
 
                     temp_books = csv.writer(temp_file)
@@ -167,6 +182,7 @@ class Database:
             return 'tr0001'
 
         last = []
+        lines = []
         with open('../data/all_transaction.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
             for lines in csv_file:

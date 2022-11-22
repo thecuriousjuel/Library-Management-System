@@ -1,5 +1,6 @@
 from main_helper import *
 from student import *
+from pwinput import pwinput
 
 
 def start():
@@ -28,8 +29,8 @@ def start():
                 print('\t\t\t\t\t\tEnter your ID ')
                 stud_id = input('\t\t\t\t\t\t-> ').strip()
 
-                print('\t\t\t\tEnter your Password')
-                stud_pass = input('\t\t\t\t\t\t-> ').strip()
+                print('\t\t\t\t\t\tEnter your Password')
+                stud_pass = pwinput('\t\t\t\t\t\t-> ', mask='x').strip()
 
                 if len(stud_id) == 0 or len(stud_pass) == 0:
                     print('\t\t\t\t------------------------------------------')
@@ -59,29 +60,31 @@ def start():
             case '2':
                 status = False
                 while True:
-                    print('\t\t\t\tEnter your Name')
-                    stud_name = input('\t\t\t\t-> ').strip()
+                    print('\t\t\t\t\t\tEnter your Name')
+                    stud_name = input('\t\t\t\t\t\t-> ').strip()
 
-                    print('\t\t\t\tEnter your Password')
-                    stud_pass_1 = input('\t\t\t\t-> ').strip()
+                    print('\t\t\t\t\t\tEnter your Password')
+                    stud_pass_1 = pwinput('\t\t\t\t\t\t-> ', mask='x').strip()
 
-                    print('\t\t\t\tRe-enter your Password')
-                    stud_pass_2 = input('\t\t\t\t-> ').strip()
+                    print('\t\t\t\t\t\tRe-enter your Password')
+                    stud_pass_2 = pwinput('\t\t\t\t\t\t-> ', mask='x').strip()
 
-                    print('\t\t\t\tEnter Batch')
-                    stud_batch = input('\t\t\t\t-> ')
+                    print('\t\t\t\t\t\tEnter Batch')
+                    stud_batch = input('\t\t\t\t\t\t-> ')
 
                     if len(stud_name) < 1 or len(stud_pass_1) < 1 or len(stud_pass_2) < 1 or len(stud_batch) < 1:
-                        print('\t\t\t\tPlease enter a valid student details.')
-                        ch = input('\t\t\t\tPress Enter to continue....')
+                        print('\t\t\t\t\t\tPlease enter a valid student details.')
+                        ch = input('\t\t\t\t\t\tPress Enter to continue....')
                         if len(ch) <= 0:
                             break
 
                     elif stud_pass_1 != stud_pass_2:
-                        print('\t\t\t\tPassword not matching')
-                        ch = input('\t\t\t\tPress Enter to continue....')
-                        if len(ch) <= 0:
-                            break
+                        print('\t\t\t\t------------------------------------------')
+                        print('\t\t\t\t|          Password not matching         |')
+                        print('\t\t\t\t|           Press enter to exit          |')
+                        print('\t\t\t\t------------------------------------------')
+                        ch = input('\t\t\t\t\t\t-> ')
+                        break
                     else:
                         status = True
                         break
