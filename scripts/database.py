@@ -13,6 +13,9 @@ class Database:
         with open('../data/books.csv', mode='r') as file:
             csv_file = csv.reader(file)
             count = 1
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|                All Book(s)             |')
+            print('\t\t\t\t------------------------------------------')
             for lines in csv_file:
                 self.print_it(lines)
 
@@ -30,31 +33,35 @@ class Database:
         with open('../data/books.csv', mode='r') as file:
             csv_file = csv.reader(file)
             count = 1
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|                All Book(s)             |')
+            print('\t\t\t\t------------------------------------------')
             for lines in csv_file:
-
                 self.print_it(lines)
-
 
                 if count % 4 == 0:
                     print('\t\t\t\t------------------------------------------')
                     print('\t\t\t\t|        Provide accurate Book ID.       |')
                     print('\t\t\t\t|        Press enter to view more...     |')
                     print('\t\t\t\t------------------------------------------')
-                    inp = input('\t\t\t\t\t\t\t-> ')
+                    inp = input('\t\t\t\t\t-> ')
                     if len(inp) != 0:
                         return inp
                 count += 1
 
         print('\t\t\t\t------------------------------------------')
         print('\t\t\t\t|        Provide accurate Book ID.       |')
-        print('\t\t\t\t|        Press enter to view more...     |')
+        print('\t\t\t\t|        Press enter to exit.            |')
         print('\t\t\t\t------------------------------------------')
-        inp = input('\t\t\t\t-> ')
+        inp = input('\t\t\t\t\t-> ')
+
+        if len(inp) == 0:
+            return False
+
         return inp
 
     def print_it(self, data):
         try:
-            print('\t', '-'*110)
             print('\t\t\t\tID            : ', data[0])
             print('\t\t\t\tName          : ', data[1])
             print('\t\t\t\tAuthor        : ', data[2])
@@ -62,11 +69,11 @@ class Database:
             print('\t\t\t\tPublish Date  : ', data[4])
             print('\t\t\t\tAvailability  : ', data[5])
             print('\t\t\t\tNo. of Copies : ', data[6])
+            print('\t', '-'*110)
         except IndexError:
             pass
         except Exception:
             pass
-
 
     def authenticate(self, stud_id, stud_password):
         from student import Student
@@ -98,6 +105,8 @@ class Database:
                 return lines[0]
             except IndexError:
                 return last[0]
+            except Exception:
+                pass
 
     def save_student(self, stud_obj):
         data = [stud_obj.student_id, stud_obj.student_name, stud_obj.student_password, stud_obj.student_batch]
@@ -112,12 +121,17 @@ class Database:
 
             with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
                 for book in books:
-                    if book[0] == book_id:
-                        if int(book[6]) >= 1:
-                            book[6] = str(int(book[6]) - 1)
-                            if book[6] == 0:
-                                book[5] = "False"
-                            success = book
+                    try:
+                        if book[0] == book_id:
+                            if int(book[6]) >= 1:
+                                book[6] = str(int(book[6]) - 1)
+                                if book[6] == 0:
+                                    book[5] = "False"
+                                success = book
+                    except IndexError:
+                        continue
+                    except Exception:
+                        continue
 
                     temp_books = csv.writer(temp_file)
                     temp_books.writerow(book)
@@ -142,8 +156,13 @@ class Database:
                 borrow_file_reader = csv.reader(borrow_file)
 
                 for line in borrow_file_reader:
-                    if line[1] == stud_obj.student_id and line[2] == book_obj.book_id and not status:
-                        status = True
+                    try:
+                        if line[1] == stud_obj.student_id and line[2] == book_obj.book_id and not status:
+                            status = True
+                            continue
+                    except IndexError:
+                        continue
+                    except Exception:
                         continue
                     temp_file_writer.writerow(line)
 
@@ -157,11 +176,15 @@ class Database:
 
             with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
                 for book in books:
-                    if book[0] == book_id and not success:
-                        book[6] = str(int(book[6]) + 1)
-                        book[5] = "True"
-                        success = book
-
+                    try:
+                        if book[0] == book_id and not success:
+                            book[6] = str(int(book[6]) + 1)
+                            book[5] = "True"
+                            success = book
+                    except IndexError:
+                        continue
+                    except Exception:
+                        continue
                     temp_books = csv.writer(temp_file)
                     temp_books.writerow(book)
 
@@ -233,28 +256,38 @@ class Database:
 
     def get_all_borrowed_books(self, stud_obj):
         with open('../data/all_borrows.csv', mode='r', encoding='utf-8') as borrow_file:
-            trans_file_reader = csv.reader(borrow_file)
+            borrow_file_reader = csv.reader(borrow_file)
             book_list = []
 
-            for line in trans_file_reader:
-                if line[1] == stud_obj.student_id:
+            for line in borrow_file_reader:
+                try:
+                    if line[1] == stud_obj.student_id:
 
-                    with open('../data/books.csv', mode='r', encoding='utf-8') as book_file:
-                        book_file_reader = csv.reader(book_file)
+                        with open('../data/books.csv', mode='r', encoding='utf-8') as book_file:
+                            book_file_reader = csv.reader(book_file)
 
-                        for book_line in book_file_reader:
-                            if line[2] == book_line[0]:
-                                book_obj = Book(book_line[0],
-                                                book_line[1],
-                                                book_line[2],
-                                                book_line[3],
-                                                book_line[4],
-                                                book_line[5],
-                                                book_line[6])
+                            for book_line in book_file_reader:
+                                try:
+                                    if line[2] == book_line[0]:
+                                        book_obj = Book(book_line[0],
+                                                        book_line[1],
+                                                        book_line[2],
+                                                        book_line[3],
+                                                        book_line[4],
+                                                        book_line[5],
+                                                        book_line[6])
 
-                                book_obj.borrow_date = line[3]
+                                        book_obj.borrow_date = line[3]
 
-                                book_list.append(book_obj)
+                                        book_list.append(book_obj)
+                                except IndexError:
+                                    pass
+                                except Exception:
+                                    pass
+                except IndexError:
+                    pass
+                except Exception:
+                    pass
 
         return book_list
 

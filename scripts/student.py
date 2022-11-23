@@ -60,59 +60,46 @@ class Student:
             print(book)
             print('\t', '-'*110)
 
-        ch = None
-        flag = True
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|           Enter Valid Book ID          |')
+        print('\t\t\t\t|           Press enter to exit          |')
+        print('\t\t\t\t------------------------------------------')
+        ch = input('\t\t\t\t\t\t-> ')
 
-        while flag:
-            print('\t\t\t\t------------------------------------------')
-            print('\t\t\t\t|           Enter Valid Book ID          |')
-            print('\t\t\t\t|           Press enter to exit          |')
-            print('\t\t\t\t------------------------------------------')
-            ch = input('\t\t\t\t\t\t-> ')
+        if len(ch) == 0:
+            return
 
-            if len(ch) == 0:
-                return
+        for book in book_list:
+            if book.book_id == ch:
+                status = db.return_book(self, ch)
+                if status:
+                    borrow_date = datetime.strptime(book.borrow_date, '%d-%m-%Y')
+                    current_date = datetime.now()
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|               Returned Book            |')
+                    print('\t\t\t\t------------------------------------------')
+                    print(book)
 
-            for book in book_list:
-                if book.book_id == ch:
-                    status = db.return_book(self, ch)
-                    if status:
-                        borrow_date = datetime.strptime(book.borrow_date, '%d-%m-%Y')
-                        current_date = datetime.now()
-                        print('\t\t\t\t------------------------------------------')
-                        print('\t\t\t\t|               Returned Book            |')
-                        print('\t\t\t\t------------------------------------------')
-                        print(book)
+                    print(f'\t\t\t\t\t\tBorrow Date    : {book.borrow_date}', )
+                    print(f'\t\t\t\t\t\tReturn Date    : {current_date.strftime("%d-%m-%Y")}')
 
-                        print(f'\t\t\t\t\t\tBorrow Date    : {book.borrow_date}', )
-                        print(f'\t\t\t\t\t\tReturn Date    : {current_date.strftime("%d-%m-%Y")}')
+                    d = current_date - borrow_date
+                    print(f'\t\t\t\t\t\tHolding Period : {d.days} day(s)')
+                    fine = (d.days // 7) * 20
+                    print('\t\t\t\t\t\tFine           :  Rs. ', fine)
 
-                        d = current_date - borrow_date
-                        print(f'\t\t\t\t\t\tHolding Period : {d.days} day(s)')
-                        fine = (d.days // 7) * 20
-                        print('\t\t\t\t\t\tFine           :  Rs. ', fine)
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|               Returned By              |')
+                    print('\t\t\t\t------------------------------------------')
+                    print(self)
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|          Transaction Successful        |')
+                    print('\t\t\t\t------------------------------------------')
+                    return
 
-                        print('\t\t\t\t------------------------------------------')
-                        print('\t\t\t\t|               Returned By              |')
-                        print('\t\t\t\t------------------------------------------')
-                        print(self)
-                        print('\t\t\t\t------------------------------------------')
-                        print('\t\t\t\t|          Transaction Successful        |')
-                        print('\t\t\t\t------------------------------------------')
-                    else:
-                        print('\t\t\t\t-----------------------------------------------------')
-                        print('\t\t\t\t|  Error: Book return unsuccessful (Check Book ID)  |')
-                        print('\t\t\t\t-----------------------------------------------------')
-                    flag = False
-                    break
-
-            if flag:
-                print('\t\t\t\t------------------------------------------')
-                print('\t\t\t\t|        Error : Book ID not Found       |')
-                print('\t\t\t\t------------------------------------------')
-                return
-
-        
+        print('\t\t\t\t-----------------------------------------------------')
+        print('\t\t\t\t|  Error: Book return unsuccessful (Check Book ID)  |')
+        print('\t\t\t\t-----------------------------------------------------')
 
     def check_fines(self):
         db = Database()
