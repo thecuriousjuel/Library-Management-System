@@ -97,6 +97,8 @@ def start():
 
                     save_student(stud)
 
+            case '3':
+                
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')
