@@ -11,13 +11,13 @@ def start():
         print('\t\t\t\t------------------------------------------')
         print('\t\t\t\t|                  Home                  |')
         print('\t\t\t\t------------------------------------------')
-        print('\t\t\t\t|                1. Login                |')
-        print('\t\t\t\t|                2. Register             |')
-        print('\t\t\t\t|                3. De-register          |')
+        print('\t\t\t\t|          1. Student Login              |')
+        print('\t\t\t\t|          2. Student Register           |')
+        print('\t\t\t\t|          3. Librarian Login            |')
         print('\t\t\t\t------------------------------------------')
-        print('\t\t\t\t\t\tPress enter to exit')
-        print('\t\t\t\t\t\tEnter your option')
-        choice = input('\t\t\t\t\t\t-> ').strip()
+        print('\t\t\t\t\tPress enter to exit')
+        print('\t\t\t\t\tEnter your option')
+        choice = input('\t\t\t\t\t-> ').strip()
 
         if len(choice) == 0 or wrong_option == 0:
             break
@@ -26,16 +26,16 @@ def start():
             case '1':
                 if failed_auth < 0:
                     break
-                print('\t\t\t\t\t\tEnter your ID ')
-                stud_id = input('\t\t\t\t\t\t-> ').strip()
+                print('\t\t\t\t\tEnter your ID ')
+                stud_id = input('\t\t\t\t\t-> ').strip()
 
-                print('\t\t\t\t\t\tEnter your Password')
-                stud_pass = pwinput('\t\t\t\t\t\t-> ', mask='x').strip()
+                print('\t\t\t\t\tEnter your Password')
+                stud_pass = pwinput('\t\t\t\t\t-> ', mask='x').strip()
 
                 if len(stud_id) == 0 or len(stud_pass) == 0:
                     print('\t\t\t\t------------------------------------------')
                     print('\t\t\t\t|         Error : Invalid Entry!         |')
-                    print(f'\t\t\t\t|      Remaining attempts : {failed_auth}      |')
+                    print(f'\t\t\t\t\t|      Remaining attempts : {failed_auth}      |')
                     print('\t\t\t\t------------------------------------------')
                     failed_auth -= 1
                     continue
@@ -98,7 +98,38 @@ def start():
                     save_student(stud)
 
             case '3':
-                
+                if failed_auth < 0:
+                    break
+                print('\t\t\t\t\tEnter your ID')
+                lib_id = input('\t\t\t\t\t-> ').strip()
+
+                print('\t\t\t\t\tEnter your Password')
+                lib_pass = pwinput('\t\t\t\t\t-> ', mask='x').strip()
+
+                if len(lib_id) == 0 or len(lib_pass) == 0:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|         Error : Invalid Entry!         |')
+                    print(f'\t\t\t\t\t|      Remaining attempts : {failed_auth}      |')
+                    print('\t\t\t\t------------------------------------------')
+                    failed_auth -= 1
+                    continue
+
+                lib_obj = lib_auth(lib_id, lib_pass)
+
+                if stud_obj:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|                 Hello!                 |')
+                    print('\t\t\t\t------------------------------------------')
+                    print(stud_obj)
+                    print('\t\t\t\t------------------------------------------')
+
+                    stud_options(stud_obj)
+                else:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|    Error : Authentication Failed!      |')
+                    print(f'\t\t\t\t|    Remaining attempts : {failed_auth}              |')
+                    print('\t\t\t\t------------------------------------------')
+                    failed_auth -= 1
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')
@@ -118,6 +149,7 @@ def stud_options(stud_obj):
         print('\t\t\t\t|             2. Borrow Books            |')
         print('\t\t\t\t|             3. Return Books            |')
         print('\t\t\t\t|             4. Compute Fines           |')
+        print('\t\t\t\t|             5. De-Register             |')
         print('\t\t\t\t------------------------------------------')
 
         print('\t\t\t\t\tPress enter to exit')
@@ -136,6 +168,36 @@ def stud_options(stud_obj):
                 stud_obj.return_book()
             case '4':
                 stud_obj.check_fines()
+            case '5':
+                fine = stud_obj.check_fines() 
+                if fine > 0:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|                 Alert!                 |')
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|      Please return borrowed books.     |')
+                    print('\t\t\t\t|        And clear all your fines.       |')
+                    print('\t\t\t\t------------------------------------------')
+                    continue
+
+                elif fine == -1:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|                 Alert!                 |')
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|      Please return borrowed books.     |')
+                    print('\t\t\t\t------------------------------------------')
+                    continue
+
+                print('\t\t\t\t------------------------------------------')
+                print('\t\t\t\t|                 Alert!                 |')
+                print('\t\t\t\t------------------------------------------')
+                print(stud_obj)
+                print('\t\t\t\t------------------------------------------')
+                print('\t\t\t\tAre you sure to De-register Yourself? Y/n')
+                option = input('\t\t\t\t\t-> ')
+                if option == 'Y':
+                    stud_obj.remove()
+
+
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')

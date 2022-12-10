@@ -41,3 +41,8 @@ def create_id():
 
     new_id = 'st' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
     return new_id
+
+def lib_auth(lib_id, lib_pass):
+    db = Database()
+    allow = db.lib_authenticate(lib_id, lib_pass)
+    return allow

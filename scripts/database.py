@@ -3,7 +3,7 @@ import datetime
 import os
 
 from book import *
-
+from student import Student
 
 class Database:
     def __init__(self):
@@ -76,7 +76,6 @@ class Database:
             pass
 
     def authenticate(self, stud_id, stud_password):
-        from student import Student
         status = False
 
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
@@ -291,3 +290,35 @@ class Database:
 
         return book_list
 
+    def remove(self, student_obj):
+        with open('../data/students.csv', mode='r', newline='', encoding='utf-8') as file_read_obj:
+            csv_reader = csv.reader(file_read_obj)
+
+            with open('../data/temp.csv', mode='w', newline='', encoding='utf-8') as file_write_object:
+                csv_writer = csv.writer(file_write_object)
+
+                for line in csv_reader:
+                    if student_obj.student_id == line[0]:
+                        continue
+                    csv_writer.writerow(line)
+
+
+        os.remove('../data/students.csv')
+        os.rename('../data/temp.csv', '../data/students.csv')
+
+    def lib_authenticate(self, lib_id, lib_pass):
+        status = False
+
+        with open('../data/students.csv', mode='r', encoding='utf-8') as file:
+            csv_file = csv.reader(file)
+            for lines in csv_file:
+                try:
+                    if lines[0] == lib_id and lines[2] == lib_pass:
+                        status = Student(lines[0], lines[1], lines[2], lines[3])
+                        break
+                except IndexError:
+                    pass
+                except Exception:
+                    pass
+
+        return status

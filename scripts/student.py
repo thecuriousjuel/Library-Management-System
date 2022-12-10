@@ -104,13 +104,14 @@ class Student:
     def check_fines(self):
         db = Database()
         book_list = db.get_all_borrowed_books(self)
+        total = 0
+
         if len(book_list) == 0:
             print('\t\t\t\t------------------------------------------')
             print('\t\t\t\t|   Error : No Books are borrowed yet!   |')
             print('\t\t\t\t------------------------------------------')
-            return
-
-        total = 0
+            return total
+        
         print('\t\t\t\t------------------------------------------')
         print('\t\t\t\t|        Borrowed Books with Fines       |')
         print('\t\t\t\t------------------------------------------')
@@ -134,12 +135,22 @@ class Student:
             print('\t', '-' * 110)
 
         print('\t\t\t\t------------------------------------------')
-        print(f'\t\t\t\t|        Total     : Rs. {total}              |')
+        print(f'\t\t\t\t|      Total Fine    : Rs. {total}            |')
         print('\t\t\t\t------------------------------------------')
+
+        if total == 0:
+            total = -1
+        return total
+
+
+    def remove(self):
+        db = Database()
+        db.remove(self)
+
 
     def __str__(self):
         return (f"""
-                        Student ID     : {self.student_id}
-                        Student Name   : {self.student_name}
-                        Student Batch  : {self.student_batch}
-                   """)
+                \t\t\tStudent ID     : {self.student_id}
+                \t\t\tStudent Name   : {self.student_name}
+                \t\t\tStudent Batch  : {self.student_batch}
+                """)
