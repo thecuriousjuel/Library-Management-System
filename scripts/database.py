@@ -22,7 +22,7 @@ class Database:
                     print('\t\t\t\t|       Press enter to view more...      |')
                     print('\t\t\t\t|       Press other key to exit          |')
                     print('\t\t\t\t------------------------------------------')
-                    inp = input('\t\t\t\t\t\t-> ')
+                    inp = input('\t\t\t\t\t-> ')
                     if len(inp) != 0:
                         break
                 count += 1

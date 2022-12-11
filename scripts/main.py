@@ -1,6 +1,7 @@
 from main_helper import *
 from student import *
 from pwinput import pwinput
+from datetime import datetime
 
 
 def start():
@@ -212,40 +213,42 @@ def lib_options(lib_obj):
                     book_publish_date = input('\t\t\t\t\t-> ').strip()
 
                     print('\t\t\t\t\tEnter No. of copies (Default: 1) [Optional]')
-                    book_copies = int(input('\t\t\t\t\t-> ').strip())
+                    book_copies = input('\t\t\t\t\t-> ').strip()
+
+                    if len(book_copies) == 0:
+                        book_copies = '1'
 
                     flag = False
                     if len(book_publish_date) == 0 or len(book_publish_date) == 10:
-                        pass
+                        if len(book_publish_date) == 10:
+                            day, month, year = book_publish_date.split('-')
+                            datetime(day=int(day), month=int(month), year=int(year))
                     else:
                         flag = True
 
-                    if len(book_name) == 0 and len(book_author) == 0 and flag == True and book_copies < 0:
-                        print('\t\t\t\t------------------------------------------')
-                        print('\t\t\t\t|                 Error!                 |')
-                        print('\t\t\t\t------------------------------------------')
-                        print('\t\t\t\t|        Please Check books details.     |')
-                        print('\t\t\t\t------------------------------------------')
+                    if len(book_name) == 0 or len(book_author) == 0 or flag == True or int(book_copies) < 0:
+                        raise ValueError
 
-                except ValueError:
+                except ValueError as exp:
                     print('\t\t\t\t------------------------------------------')
                     print('\t\t\t\t|                 Error!                 |')
                     print('\t\t\t\t------------------------------------------')
-                    print('\t\t\t\t|        Please Check books details.     |')
+                    print(f'\t\t\t\t{exp}')
                     print('\t\t\t\t------------------------------------------')
+
                 except Exception as exp:
                     print('\t\t\t\t------------------------------------------')
                     print('\t\t\t\t|        Some Error occur                |')
                     print('\t\t\t\t------------------------------------------')
-                    print(f'\t\t\t\t|        {exp}               |')
+                    print(f'\t\t\t\t{exp}')
                     print('\t\t\t\t------------------------------------------')
 
-                    
-                lib_obj.add_books(book_name=book_name, 
-                                    book_author=book_author, 
-                                    book_publisher=book_publisher, 
-                                    book_publish_date=book_publish_date, 
-                                    book_copies=book_copies)
+                else:
+                    lib_obj.add_books(book_name=book_name, 
+                                        book_author=book_author, 
+                                        book_publisher=book_publisher, 
+                                        book_publish_date=book_publish_date, 
+                                        book_copies=book_copies)
 
             case '2':
                 lib_obj.update_book()

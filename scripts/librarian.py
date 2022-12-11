@@ -19,7 +19,7 @@ class Librarian:
 
         db.save_book(book_obj)
         print('\t\t\t\t------------------------------------------')
-        print(f'\t\t\t\t|              Book Saved               |')
+        print(f'\t\t\t\t|               Book Saved               |')
         print('\t\t\t\t------------------------------------------')
         print(book_obj)
         print('\t\t\t\t------------------------------------------')

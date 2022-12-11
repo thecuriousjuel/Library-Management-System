@@ -5,7 +5,7 @@ class Book:
                  book_author,
                  book_publisher,
                  book_publish_date,
-                 book_availability_status=True,
+                 book_availability_status='True',
                  book_copies='1',
                  borrow_date=None):
         self.book_id = book_id
@@ -26,12 +26,11 @@ class Book:
         else:
             self.book_publish_date = 'Unknown'
 
-        if len(book_copies) != 0:
-            self.book_copies = book_copies
-            if int(book_copies) == 0:
-                book_availability_status = False
+        self.book_copies = book_copies
+        if int(self.book_copies) > 0:
+            book_availability_status = 'True'
         else:
-            self.book_copies = '1'
+            book_availability_status = 'False'
 
         self.book_availability_status = book_availability_status
         self.borrow_date = borrow_date
