@@ -1,5 +1,5 @@
 from book import Book
-from database import *
+from database import Database
 from datetime import datetime
 class Librarian:
     def __init__(self, librarian_id, librarian_name, librarian_password):

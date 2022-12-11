@@ -35,7 +35,6 @@ class Book:
         self.book_availability_status = book_availability_status
         self.borrow_date = borrow_date
 
-
     def __str__(self):
         return (f"""
                     \t\t\tBook ID           : {self.book_id}
@@ -46,5 +45,3 @@ class Book:
                     \t\t\tBook Avail status : {self.book_availability_status}
                     \t\t\tBook Copies       : {self.book_copies}
                    """)
-
-

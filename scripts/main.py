@@ -2,7 +2,6 @@ from main_helper import *
 from student import *
 from pwinput import pwinput
 
-
 def start():
     wrong_option = 5
     failed_auth = 5
@@ -137,7 +136,6 @@ def start():
                 print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
 
-
 def stud_options(stud_obj):
     wrong_option = 5
 
@@ -176,7 +174,6 @@ def stud_options(stud_obj):
                 print(f'\t\t\t\t|       Remaining attempts : {wrong_option}           |')
                 print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
-
 
 def lib_options(lib_obj):
     wrong_option = 5

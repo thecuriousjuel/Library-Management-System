@@ -1,4 +1,4 @@
-from database import *
+from database import Database
 
 def fetch_last_student_id(self):
     db = Database()
