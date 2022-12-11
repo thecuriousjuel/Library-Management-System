@@ -60,21 +60,21 @@ def start():
             case '2':
                 status = False
                 while True:
-                    print('\t\t\t\t\t\tEnter your Name')
-                    stud_name = input('\t\t\t\t\t\t-> ').strip()
+                    print('\t\t\t\t\tEnter your Name')
+                    stud_name = input('\t\t\t\t\t-> ').strip()
 
-                    print('\t\t\t\t\t\tEnter your Password')
-                    stud_pass_1 = pwinput('\t\t\t\t\t\t-> ', mask='x').strip()
+                    print('\t\t\t\t\tEnter your Password')
+                    stud_pass_1 = pwinput('\t\t\t\t\t-> ', mask='x').strip()
 
-                    print('\t\t\t\t\t\tRe-enter your Password')
-                    stud_pass_2 = pwinput('\t\t\t\t\t\t-> ', mask='x').strip()
+                    print('\t\t\t\t\tRe-enter your Password')
+                    stud_pass_2 = pwinput('\t\t\t\t\t-> ', mask='x').strip()
 
-                    print('\t\t\t\t\t\tEnter Batch')
-                    stud_batch = input('\t\t\t\t\t\t-> ')
+                    print('\t\t\t\t\tEnter Batch')
+                    stud_batch = input('\t\t\t\t\t-> ')
 
                     if len(stud_name) < 1 or len(stud_pass_1) < 1 or len(stud_pass_2) < 1 or len(stud_batch) < 1:
-                        print('\t\t\t\t\t\tPlease enter a valid student details.')
-                        ch = input('\t\t\t\t\t\tPress Enter to continue....')
+                        print('\t\t\t\t\tPlease enter a valid student details.')
+                        ch = input('\t\t\t\t\tPress Enter to continue....')
                         if len(ch) <= 0:
                             break
 
@@ -169,35 +169,7 @@ def stud_options(stud_obj):
             case '4':
                 stud_obj.check_fines()
             case '5':
-                fine = stud_obj.check_fines() 
-                if fine > 0:
-                    print('\t\t\t\t------------------------------------------')
-                    print('\t\t\t\t|                 Alert!                 |')
-                    print('\t\t\t\t------------------------------------------')
-                    print('\t\t\t\t|      Please return borrowed books.     |')
-                    print('\t\t\t\t|        And clear all your fines.       |')
-                    print('\t\t\t\t------------------------------------------')
-                    continue
-
-                elif fine == -1:
-                    print('\t\t\t\t------------------------------------------')
-                    print('\t\t\t\t|                 Alert!                 |')
-                    print('\t\t\t\t------------------------------------------')
-                    print('\t\t\t\t|      Please return borrowed books.     |')
-                    print('\t\t\t\t------------------------------------------')
-                    continue
-
-                print('\t\t\t\t------------------------------------------')
-                print('\t\t\t\t|                 Alert!                 |')
-                print('\t\t\t\t------------------------------------------')
-                print(stud_obj)
-                print('\t\t\t\t------------------------------------------')
-                print('\t\t\t\tAre you sure to De-register Yourself? Y/n')
-                option = input('\t\t\t\t\t-> ')
-                if option == 'Y':
-                    stud_obj.remove()
-
-
+                stud_obj.deregister()
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')

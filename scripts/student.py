@@ -145,6 +145,39 @@ class Student:
         db = Database()
         db.remove(self)
 
+    def deregister(self):
+        fine = self.check_fines() 
+        if fine > 0:
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|                 Alert!                 |')
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|      Please return borrowed books.     |')
+            print('\t\t\t\t|        And clear all your fines.       |')
+            print('\t\t\t\t------------------------------------------')
+            return
+
+        elif fine == -1:
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|                 Alert!                 |')
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|      Please return borrowed books.     |')
+            print('\t\t\t\t------------------------------------------')
+            return
+
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|                 Alert!                 |')
+        print('\t\t\t\t------------------------------------------')
+        print(self)
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\tAre you sure to De-register Yourself? Y/n')
+        option = input('\t\t\t\t\t-> ')
+        if option == 'Y':
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|             User Removed!              |')
+            print('\t\t\t\t------------------------------------------')
+            print(self)
+            print('\t\t\t\t------------------------------------------')
+            self.remove()
 
     def __str__(self):
         return (f"""
