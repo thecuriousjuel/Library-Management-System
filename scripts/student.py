@@ -173,7 +173,7 @@ class Student:
             print('\t\t\t\t------------------------------------------')
             print(self)
             print('\t\t\t\t------------------------------------------')
-            self.remove()
+            self.deregister()
 
     def __str__(self):
         return (f"""

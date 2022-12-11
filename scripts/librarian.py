@@ -1,5 +1,6 @@
 from book import Book
 from database import *
+from datetime import datetime
 class Librarian:
     def __init__(self, librarian_id, librarian_name, librarian_password):
         self.librarian_id = librarian_id
@@ -69,7 +70,6 @@ class Librarian:
             print(book_obj)
             print('\t\t\t\t------------------------------------------')
 
-
     def update_book(self):
         db = Database()
         selected_book_id = db.view_and_select_books()
@@ -124,7 +124,6 @@ class Librarian:
             print('\t\t\t\t------------------------------------------')
 
         else:
-            db = Database()
             book_obj = Book(book_id=selected_book_id,
                             book_name=book_name, 
                             book_author=book_author, 
@@ -146,9 +145,38 @@ class Librarian:
                 print('\t\t\t\t|         Error  :  Check Book ID        |')
                 print('\t\t\t\t------------------------------------------')
 
+    def remove_book(self):
+        db = Database()
+        selected_book_id = db.view_and_select_books()
+        if not selected_book_id:
+            print('\t\t\t\t------------------------------------------')
+            print('\t\t\t\t|             No Book Selected           |')
+            print('\t\t\t\t------------------------------------------')
+            return
+
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|                 Alert!                 |')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\tAre you sure to remove the book? Y/n')
+        option = input('\t\t\t\t\t-> ')
+
+        if option == 'Y':
+            status = db.remove_book(selected_book_id)
+            if status:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|              Book Deleted              |')
+                    print('\t\t\t\t------------------------------------------')
+                    print(status)
+                    print('\t\t\t\t------------------------------------------')
+            else:
+                print('\t\t\t\t------------------------------------------')
+                print('\t\t\t\t|         Error  :  Check Book ID        |')
+                print('\t\t\t\t------------------------------------------')
 
     def __str__(self):
         return (f"""
                 \t\t\tLibrarian ID     : {self.librarian_id}
                 \t\t\tLibrarian Name   : {self.librarian_name}
                 """)
+
+    

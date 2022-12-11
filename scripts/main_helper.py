@@ -1,6 +1,5 @@
 from database import *
 
-
 def fetch_last_student_id(self):
     db = Database()
     returned_id = db.fetch_last_student_id()

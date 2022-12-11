@@ -288,7 +288,7 @@ class Database:
 
         return book_list
 
-    def remove(self, student_obj):
+    def deregister(self, student_obj):
         with open('../data/students.csv', mode='r', newline='', encoding='utf-8') as file_read_obj:
             csv_reader = csv.reader(file_read_obj)
 
@@ -374,4 +374,30 @@ class Database:
 
         return success
 
+    def remove_book(self, book_id):
+        with open('../data/books.csv', mode='r', encoding='utf-8') as file:
+            books = csv.reader(file)
+            success = False
+
+            with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
+                temp_books = csv.writer(temp_file)
+
+                for book in books:
+                    try:
+                        if book[0] == book_id and not success:
+                            success = book
+                            continue
+                    except IndexError:
+                        continue
+                    except Exception:
+                        continue
+                    
+                    temp_books.writerow(book)
+
+        os.remove('../data/books.csv')
+        os.rename('../data/temp.csv', '../data/books.csv')
+
+        if success:
+            success = Book(success[0], success[1], success[2], success[3], success[4], success[5], success[6])
+        return success
 
