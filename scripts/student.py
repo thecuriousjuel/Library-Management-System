@@ -141,10 +141,6 @@ class Student:
             total = -1
         return total
 
-    def remove(self):
-        db = Database()
-        db.remove(self)
-
     def deregister(self):
         fine = self.check_fines() 
         if fine > 0:

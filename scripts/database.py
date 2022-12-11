@@ -344,3 +344,34 @@ class Database:
         with open('../data/books.csv', newline='', mode='a', encoding='utf-8') as file_obj:
             writer_object = csv.writer(file_obj)
             writer_object.writerow(book_data)
+
+    def update_book(self, book_obj):
+        with open('../data/books.csv', mode='r', encoding='utf-8') as file:
+            books = csv.reader(file)
+            success = False
+
+            with open('../data/temp.csv', mode='a', newline='', encoding='utf-8') as temp_file:
+                temp_books = csv.writer(temp_file)
+
+                for book in books:
+                    try:
+                        if book[0] == book_obj.book_id and not success:
+                            success = book
+
+                            data = [book_obj.book_id, book_obj.book_name, book_obj.book_author, book_obj.book_publisher, book_obj.book_publish_date, book_obj.book_availability_status, book_obj.book_copies]
+
+                            temp_books.writerow(data)
+                            continue
+                    except IndexError:
+                        continue
+                    except Exception:
+                        continue
+                    
+                    temp_books.writerow(book)
+
+        os.remove('../data/books.csv')
+        os.rename('../data/temp.csv', '../data/books.csv')
+
+        return success
+
+
