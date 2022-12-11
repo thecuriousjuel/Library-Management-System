@@ -116,14 +116,14 @@ def start():
 
                 lib_obj = lib_auth(lib_id, lib_pass)
 
-                if stud_obj:
+                if lib_obj:
                     print('\t\t\t\t------------------------------------------')
                     print('\t\t\t\t|                 Hello!                 |')
                     print('\t\t\t\t------------------------------------------')
-                    print(stud_obj)
+                    print(lib_obj)
                     print('\t\t\t\t------------------------------------------')
 
-                    stud_options(stud_obj)
+                    lib_options(lib_obj)
                 else:
                     print('\t\t\t\t------------------------------------------')
                     print('\t\t\t\t|    Error : Authentication Failed!      |')
@@ -198,6 +198,87 @@ def stud_options(stud_obj):
                     stud_obj.remove()
 
 
+            case _:
+                print('\t\t\t\t------------------------------------------')
+                print('\t\t\t\t|       Enter the mentioned choices      |')
+                print(f'\t\t\t\t|       Remaining attempts : {wrong_option}           |')
+                print('\t\t\t\t------------------------------------------')
+                wrong_option -= 1
+
+
+def lib_options(lib_obj):
+    wrong_option = 5
+
+    while True:
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|              Librarian Menu            |')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t|             1. Add Books               |')
+        print('\t\t\t\t|             2. Update Books            |')
+        print('\t\t\t\t|             3. Remove Books            |')
+        print('\t\t\t\t------------------------------------------')
+        print('\t\t\t\t\tPress enter to exit')
+        print('\t\t\t\t\tEnter your option ')
+        choice = input('\t\t\t\t\t-> ')
+
+        if len(choice) == 0 or wrong_option == 0:
+            break
+
+        match choice:
+            case '1':
+                try:
+                    print('\t\t\t\t\tEnter Book Name')
+                    book_name = input('\t\t\t\t\t-> ').strip()
+
+                    print('\t\t\t\t\tEnter Book Author')
+                    book_author = input('\t\t\t\t\t-> ').strip()
+
+                    print('\t\t\t\t\tEnter Book Publisher [Optional]')
+                    book_publisher = input('\t\t\t\t\t-> ').strip()
+
+                    print('\t\t\t\t\tEnter Book Publish Date (DD-MM-YYYY) [Optional]')
+                    book_publish_date = input('\t\t\t\t\t-> ').strip()
+
+                    print('\t\t\t\t\tEnter No. of copies (Default: 1) [Optional]')
+                    book_copies = int(input('\t\t\t\t\t-> ').strip())
+
+                    flag = False
+                    if len(book_publish_date) == 0 or len(book_publish_date) == 10:
+                        pass
+                    else:
+                        flag = True
+
+                    if len(book_name) == 0 and len(book_author) == 0 and flag == True and book_copies < 0:
+                        print('\t\t\t\t------------------------------------------')
+                        print('\t\t\t\t|                 Error!                 |')
+                        print('\t\t\t\t------------------------------------------')
+                        print('\t\t\t\t|        Please Check books details.     |')
+                        print('\t\t\t\t------------------------------------------')
+
+                except ValueError:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|                 Error!                 |')
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|        Please Check books details.     |')
+                    print('\t\t\t\t------------------------------------------')
+                except Exception as exp:
+                    print('\t\t\t\t------------------------------------------')
+                    print('\t\t\t\t|        Some Error occur                |')
+                    print('\t\t\t\t------------------------------------------')
+                    print(f'\t\t\t\t|        {exp}               |')
+                    print('\t\t\t\t------------------------------------------')
+
+                    
+                lib_obj.add_books(book_name=book_name, 
+                                    book_author=book_author, 
+                                    book_publisher=book_publisher, 
+                                    book_publish_date=book_publish_date, 
+                                    book_copies=book_copies)
+
+            case '2':
+                lib_obj.update_book()
+            case '3':
+                lib_obj.remove_book()
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')

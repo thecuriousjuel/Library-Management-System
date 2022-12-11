@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from database import Database
 
 
@@ -141,7 +140,6 @@ class Student:
         if total == 0:
             total = -1
         return total
-
 
     def remove(self):
         db = Database()

@@ -1,9 +1,7 @@
 import csv
 import datetime
 import os
-
 from book import *
-from student import Student
 
 class Database:
     def __init__(self):
@@ -77,7 +75,7 @@ class Database:
 
     def authenticate(self, stud_id, stud_password):
         status = False
-
+        from student import Student
         with open('../data/students.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
             for lines in csv_file:
@@ -307,14 +305,15 @@ class Database:
         os.rename('../data/temp.csv', '../data/students.csv')
 
     def lib_authenticate(self, lib_id, lib_pass):
+        from librarian import Librarian
         status = False
-
-        with open('../data/students.csv', mode='r', encoding='utf-8') as file:
+        
+        with open('../data/librarian.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
             for lines in csv_file:
                 try:
                     if lines[0] == lib_id and lines[2] == lib_pass:
-                        status = Student(lines[0], lines[1], lines[2], lines[3])
+                        status = Librarian(lines[0], lines[1], lines[2])
                         break
                 except IndexError:
                     pass
@@ -322,3 +321,26 @@ class Database:
                     pass
 
         return status
+
+    def get_last_book_id(self):
+        last = []
+        with open('../data/books.csv', mode='r', encoding='utf-8') as file:
+            csv_file = csv.reader(file)
+            lines = []
+            for lines in csv_file:
+                if len(lines) > 0:
+                    last = lines
+            try:
+                return lines[0]
+            except IndexError:
+                return last[0]
+            except Exception:
+                pass
+
+    def save_book(self, book_obj):
+        book_data = [book_obj.book_id, book_obj.book_name, book_obj.book_author, book_obj.book_publisher, book_obj.book_publish_date,
+        book_obj.book_availability_status, book_obj.book_copies]
+
+        with open('../data/books.csv', newline='', mode='a', encoding='utf-8') as file_obj:
+            writer_object = csv.writer(file_obj)
+            writer_object.writerow(book_data)
