@@ -7,6 +7,10 @@ class Librarian:
         self.librarian_name = librarian_name
         self.librarian_password = librarian_password
 
+    def view_books(self):
+        db = Database()
+        db.view_books()
+        
     def add_books(self):
         try:
             print('\t\t\t\t\tEnter Book Name')
