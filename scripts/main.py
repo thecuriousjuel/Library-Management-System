@@ -1,7 +1,9 @@
+# Importing the required libraries
 from main_helper import *
 from student import *
 from pwinput import pwinput
 
+# This method is the starting point of the program
 def start():
     wrong_option = 5
     failed_auth = 5
@@ -136,6 +138,7 @@ def start():
                 print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
 
+# This method lists all the actions that student can perform
 def stud_options(stud_obj):
     wrong_option = 5
 
@@ -168,6 +171,7 @@ def stud_options(stud_obj):
                 stud_obj.check_fines()
             case '5':
                 stud_obj.deregister()
+                break
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')
@@ -175,6 +179,7 @@ def stud_options(stud_obj):
                 print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
 
+# This method lists all the actions that librarian can perform
 def lib_options(lib_obj):
     wrong_option = 5
 
@@ -207,6 +212,6 @@ def lib_options(lib_obj):
                 print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
 
-
+# This statement controls that no other module can this main file
 if __name__ == '__main__':
     start()

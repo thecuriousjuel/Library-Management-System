@@ -3,16 +3,19 @@ from database import Database
 
 
 class Student:
+    # Constructor to initialize the student
     def __init__(self, student_id, student_name, student_password, student_batch):
         self.student_id = student_id
         self.student_name = student_name
         self.student_password = student_password
         self.student_batch = student_batch
 
+    # This method is used to view all the books by the Student
     def view_books(self):
         db = Database()
         db.view_books()
 
+    # This method is used to borrow a books by the Student
     def borrow_book(self):
         db = Database()
         selected_book_id = db.view_and_select_books()
@@ -42,6 +45,7 @@ class Student:
             print('\t\t\t\t|    Error  :  Book is not available     |')
             print('\t\t\t\t------------------------------------------')
 
+    # This method is used to return a books by the Student
     def return_book(self):
         db = Database()
         book_list = db.get_all_borrowed_books(self)
@@ -100,6 +104,7 @@ class Student:
         print('\t\t\t\t|  Error: Book return unsuccessful (Check Book ID)  |')
         print('\t\t\t\t-----------------------------------------------------')
 
+    # This method is used to check fines of the Student
     def check_fines(self):
         db = Database()
         book_list = db.get_all_borrowed_books(self)
@@ -107,7 +112,7 @@ class Student:
 
         if len(book_list) == 0:
             print('\t\t\t\t------------------------------------------')
-            print('\t\t\t\t|   Error : No Books are borrowed yet!   |')
+            print('\t\t\t\t|   Alert : No Books are borrowed yet!   |')
             print('\t\t\t\t------------------------------------------')
             return total
         
@@ -141,6 +146,7 @@ class Student:
             total = -1
         return total
 
+    # This method is used to deregister a Student
     def deregister(self):
         fine = self.check_fines() 
         if fine > 0:
@@ -173,8 +179,10 @@ class Student:
             print('\t\t\t\t------------------------------------------')
             print(self)
             print('\t\t\t\t------------------------------------------')
-            self.deregister()
+            db = Database()
+            db.deregister(self)
 
+    # This method is used to print the details of the Student
     def __str__(self):
         return (f"""
                 \t\t\tStudent ID     : {self.student_id}

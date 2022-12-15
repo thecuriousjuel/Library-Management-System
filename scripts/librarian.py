@@ -1,16 +1,20 @@
+# Importing the required libraries
 from book import Book
 from database import Database
 from datetime import datetime
 class Librarian:
+    # Constructor to initialize the librarian
     def __init__(self, librarian_id, librarian_name, librarian_password):
         self.librarian_id = librarian_id
         self.librarian_name = librarian_name
         self.librarian_password = librarian_password
 
+    # This method is used to view all the books by the librarian
     def view_books(self):
         db = Database()
         db.view_books()
-        
+    
+    # This method is used to add a book by the librarian
     def add_books(self):
         try:
             print('\t\t\t\t\tEnter Book Name')
@@ -74,6 +78,7 @@ class Librarian:
             print(book_obj)
             print('\t\t\t\t------------------------------------------')
 
+    # This method is used to update a book by the librarian
     def update_book(self):
         db = Database()
         selected_book_id = db.view_and_select_books()
@@ -149,6 +154,7 @@ class Librarian:
                 print('\t\t\t\t|         Error  :  Check Book ID        |')
                 print('\t\t\t\t------------------------------------------')
 
+    # This method is used to remove a book by the librarian
     def remove_book(self):
         db = Database()
         selected_book_id = db.view_and_select_books()
@@ -177,6 +183,7 @@ class Librarian:
                 print('\t\t\t\t|         Error  :  Check Book ID        |')
                 print('\t\t\t\t------------------------------------------')
 
+    # This method is used to print the details of the librarian
     def __str__(self):
         return (f"""
                 \t\t\tLibrarian ID     : {self.librarian_id}

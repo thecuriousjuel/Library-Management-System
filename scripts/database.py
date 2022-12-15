@@ -4,9 +4,11 @@ import os
 from book import *
 
 class Database:
+    # Intilizing the Database Object (Null in this case)
     def __init__(self):
         pass
 
+    # This method is used to get all the book details from the books file.
     def view_books(self):
         with open('../data/books.csv', mode='r') as file:
             csv_file = csv.reader(file)
@@ -27,6 +29,7 @@ class Database:
                         break
                 count += 1
 
+    # This method is used to view all the books and get the book id that the user has selected.
     def view_and_select_books(self):
         with open('../data/books.csv', mode='r') as file:
             csv_file = csv.reader(file)
