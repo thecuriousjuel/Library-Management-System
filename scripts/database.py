@@ -208,13 +208,13 @@ class Database:
 
     # This methods gets the last transaction id of a borrow or return.
     def fetch_last_transaction_id(self):
-        check_file_presence = os.path.isfile('../data/all_transaction.csv')
+        check_file_presence = os.path.isfile('../data/all_transactions.csv')
         if not check_file_presence:
             return 'tr0001'
 
         last = []
         lines = []
-        with open('../data/all_transaction.csv', mode='r', encoding='utf-8') as file:
+        with open('../data/all_transactions.csv', mode='r', encoding='utf-8') as file:
             csv_file = csv.reader(file)
             for lines in csv_file:
                 if len(lines) > 0:
@@ -234,7 +234,7 @@ class Database:
         transaction_id = self.create_transaction_id()
         today_date = self.get_current_date()
 
-        with open('../data/all_transaction.csv', mode='a', newline='', encoding='utf-8') as file:
+        with open('../data/all_transactions.csv', mode='a', newline='', encoding='utf-8') as file:
             data_to_write = [transaction_id, stud_obj.student_id, book_obj.book_id, today_date, trans_type]
             temp_books = csv.writer(file)
             temp_books.writerow(data_to_write)
@@ -319,6 +319,29 @@ class Database:
 
         os.remove('../data/students.csv')
         os.rename('../data/temp.csv', '../data/students.csv')
+
+    # This method is used to get the last librarian id.
+    def fetch_last_librarian_id(self):
+        last = []
+        with open('../data/librarian.csv', mode='r', encoding='utf-8') as file:
+            csv_file = csv.reader(file)
+            lines = []
+            for lines in csv_file:
+                if len(lines) > 0:
+                    last = lines
+            try:
+                return lines[0]
+            except IndexError:
+                return last[0]
+            except Exception:
+                pass
+
+    # This method is used to save a librarian
+    def save_librarian(self, lib_obj):
+        data = [lib_obj.librarian_id, lib_obj.librarian_name, lib_obj.librarian_password]
+        with open('../data/librarian.csv', newline='', mode='a', encoding='utf-8') as file:
+            writer_object = csv.writer(file)
+            writer_object.writerow(data)
 
     # This method is used to authenticate the librarian.
     def lib_authenticate(self, lib_id, lib_pass):

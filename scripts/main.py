@@ -1,9 +1,11 @@
 # Importing the required libraries
 from main_helper import *
 from student import *
+from librarian import *
 from pwinput import pwinput
+import os
 
-# This method is the starting point of the program
+# This method is the starting point of the application
 def start():
     wrong_option = 5
     failed_auth = 5
@@ -15,6 +17,7 @@ def start():
         print('\t\t\t\t|          1. Student Login              |')
         print('\t\t\t\t|          2. Student Register           |')
         print('\t\t\t\t|          3. Librarian Login            |')
+        print('\t\t\t\t|          4. Librarian Register         |')
         print('\t\t\t\t------------------------------------------')
         print('\t\t\t\t\tPress enter to exit')
         print('\t\t\t\t\tEnter your option')
@@ -70,6 +73,14 @@ def start():
                     print('\t\t\t\t\tRe-enter your Password')
                     stud_pass_2 = pwinput('\t\t\t\t\t-> ', mask='x').strip()
 
+                    if stud_pass_1 != stud_pass_2:
+                        print('\t\t\t\t------------------------------------------')
+                        print('\t\t\t\t|          Password not matching         |')
+                        print('\t\t\t\t|           Press enter to exit          |')
+                        print('\t\t\t\t------------------------------------------')
+                        ch = input('\t\t\t\t\t\t-> ')
+                        break
+
                     print('\t\t\t\t\tEnter Batch')
                     stud_batch = input('\t\t\t\t\t-> ')
 
@@ -78,14 +89,6 @@ def start():
                         ch = input('\t\t\t\t\tPress Enter to continue....')
                         if len(ch) <= 0:
                             break
-
-                    elif stud_pass_1 != stud_pass_2:
-                        print('\t\t\t\t------------------------------------------')
-                        print('\t\t\t\t|          Password not matching         |')
-                        print('\t\t\t\t|           Press enter to exit          |')
-                        print('\t\t\t\t------------------------------------------')
-                        ch = input('\t\t\t\t\t\t-> ')
-                        break
                     else:
                         status = True
                         break
@@ -131,6 +134,43 @@ def start():
                     print(f'\t\t\t\t|    Remaining attempts : {failed_auth}              |')
                     print('\t\t\t\t------------------------------------------')
                     failed_auth -= 1
+            
+            case '4':
+                status = False
+                while True:
+                    print('\t\t\t\t\tEnter your Name')
+                    lib_name = input('\t\t\t\t\t-> ').strip()
+
+                    print('\t\t\t\t\tEnter your Password')
+                    lib_pass_1 = pwinput('\t\t\t\t\t-> ', mask='x').strip()
+
+                    print('\t\t\t\t\tRe-enter your Password')
+                    lib_pass_2 = pwinput('\t\t\t\t\t-> ', mask='x').strip()
+
+                    if lib_pass_1 != lib_pass_2:
+                        print('\t\t\t\t------------------------------------------')
+                        print('\t\t\t\t|          Password not matching         |')
+                        print('\t\t\t\t|           Press enter to exit          |')
+                        print('\t\t\t\t------------------------------------------')
+                        ch = input('\t\t\t\t\t-> ')
+                        break
+
+                    if len(lib_name) < 1 or len(lib_pass_1) < 1 or len(lib_pass_2) < 1:
+                        print('\t\t\t\t\tPlease enter a valid details.')
+                        ch = input('\t\t\t\t\tPress Enter to continue....')
+                        if len(ch) <= 0:
+                            break
+                    else:
+                        status = True
+                        break
+
+                if status:
+                    lib = Librarian(librarian_id=create_lib_id(),
+                                   librarian_name=lib_name,
+                                   librarian_password=lib_pass_1)
+
+                    save_librarian(lib)
+            
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')
@@ -170,8 +210,9 @@ def stud_options(stud_obj):
             case '4':
                 stud_obj.check_fines()
             case '5':
-                stud_obj.deregister()
-                break
+                status = stud_obj.deregister()
+                if status:
+                    break
             case _:
                 print('\t\t\t\t------------------------------------------')
                 print('\t\t\t\t|       Enter the mentioned choices      |')
@@ -212,6 +253,36 @@ def lib_options(lib_obj):
                 print('\t\t\t\t------------------------------------------')
                 wrong_option -= 1
 
-# This statement controls that no other module can this main file
+# This method checks whether a file exists or not and creates files if required.
+def check_and_create_file(path, file_name):
+    file_path = f'{path}/{file_name}'
+    check_file = os.path.isfile(file_path)
+
+    if check_file:
+        return
+
+    with open(file_path, mode='w') as f:
+        pass
+
+# This method creates the folders and files just before starting the application. 
+def create_files_and_folders():
+    path = '../data'
+    check_folder = os.path.isdir(path)
+
+    if not check_folder:
+        os.mkdir(path)
+        
+    check_and_create_file(path, 'all_borrows.csv')
+    check_and_create_file(path, 'all_transactions.csv')
+    check_and_create_file(path, 'books.csv')
+    check_and_create_file(path, 'librarian.csv')
+    check_and_create_file(path, 'students.csv')   
+
+    print('\t\t\t\t------------------------------------------')
+    print('\t\t\t\t|         Database Initialized           |')
+    print('\t\t\t\t------------------------------------------') 
+
+# This statement controls that no other module can this main file.
 if __name__ == '__main__':
+    create_files_and_folders()
     start()

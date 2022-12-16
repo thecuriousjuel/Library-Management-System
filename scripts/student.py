@@ -181,6 +181,9 @@ class Student:
             print('\t\t\t\t------------------------------------------')
             db = Database()
             db.deregister(self)
+            return True
+            
+        return False
 
     # This method is used to print the details of the Student
     def __str__(self):
@@ -189,3 +192,4 @@ class Student:
                 \t\t\tStudent Name   : {self.student_name}
                 \t\t\tStudent Batch  : {self.student_batch}
                 """)
+
