@@ -1,3 +1,4 @@
+# Importing the required libraries
 from datetime import datetime
 from database import Database
 
