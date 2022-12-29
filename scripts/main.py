@@ -266,7 +266,7 @@ def check_and_create_file(path, file_name):
 
 # This method creates the folders and files just before starting the application. 
 def create_files_and_folders():
-    path = 'data'
+    path = '../data'
     check_folder = os.path.isdir(path)
 
     if not check_folder:
