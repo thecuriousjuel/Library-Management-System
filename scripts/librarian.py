@@ -61,8 +61,11 @@ class Librarian:
             print('\t\t\t\t------------------------------------------')
 
         else:
-            db = Database()
-            book_id = int(db.get_last_book_id()) + 1
+            try:
+                db = Database()
+                book_id = int(db.get_last_book_id()) + 1
+            except IndexError:
+                book_id = '1'
 
             book_obj = Book(book_id=book_id,
                             book_name=book_name, 

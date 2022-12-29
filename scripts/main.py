@@ -228,9 +228,10 @@ def lib_options(lib_obj):
         print('\t\t\t\t------------------------------------------')
         print('\t\t\t\t|              Librarian Menu            |')
         print('\t\t\t\t------------------------------------------')
-        print('\t\t\t\t|             1. Add Books               |')
-        print('\t\t\t\t|             2. Update Books            |')
-        print('\t\t\t\t|             3. Remove Books            |')
+        print('\t\t\t\t|             1. View Books              |')
+        print('\t\t\t\t|             2. Add Books               |')
+        print('\t\t\t\t|             3. Update Books            |')
+        print('\t\t\t\t|             4. Remove Books            |')
         print('\t\t\t\t------------------------------------------')
         print('\t\t\t\t\tPress enter to exit')
         print('\t\t\t\t\tEnter your option ')
@@ -241,10 +242,12 @@ def lib_options(lib_obj):
 
         match choice:
             case '1':
-                lib_obj.add_books()
+                lib_obj.view_books()
             case '2':
-                lib_obj.update_book()
+                lib_obj.add_books()
             case '3':
+                lib_obj.update_book()
+            case '4':
                 lib_obj.remove_book()
             case _:
                 print('\t\t\t\t------------------------------------------')
