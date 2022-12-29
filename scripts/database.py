@@ -209,10 +209,6 @@ class Database:
 
     # This methods gets the last transaction id of a borrow or return.
     def fetch_last_transaction_id(self):
-        check_file_presence = os.path.isfile('../data/all_transactions.csv')
-        if not check_file_presence:
-            return 'tr0001'
-
         last = []
         lines = []
         with open('../data/all_transactions.csv', mode='r', encoding='utf-8') as file:
@@ -250,20 +246,22 @@ class Database:
 
     # This method creates a new transaction id.
     def create_transaction_id(self):
-
         num_of_zeros = 4
-        returned_id = self.fetch_last_transaction_id()
+        try:
+            returned_id = self.fetch_last_transaction_id()
+            new_id = int(returned_id[2:]) + 1
+            temp = new_id
+            num_of_digits = 0
 
-        new_id = int(returned_id[2:]) + 1
+            while temp > 0:
+                num_of_digits += 1
+                temp //= 10
 
-        temp = new_id
-        num_of_digits = 0
+            new_id = 'tr' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
 
-        while temp > 0:
-            num_of_digits += 1
-            temp //= 10
+        except IndexError:
+            new_id = 'tr0001'
 
-        new_id = 'tr' + '0' * (num_of_zeros - num_of_digits) + str(new_id)
         return new_id
 
     # This method fetches all the borrowed books by a student.
